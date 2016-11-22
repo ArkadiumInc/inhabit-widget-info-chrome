@@ -2,12 +2,12 @@
   "name": "inhabit-widget-info-chrome",
   "version": "1.0.0",
   "scripts": {
-    "start": "concurrently \"npm run tsc:w\" \"npm run lite\" ",    
+    "start": "concurrently \"npm run tsc:w\" \"npm run lite\" ",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
     "typings": "typings",
-    "postinstall": "typings install" 
+    "postinstall": "typings install"
   },
   "license": "ISC",
   "dependencies": {
@@ -20,9 +20,10 @@
     "zone.js": "^0.6.12sta"
   },
   "devDependencies": {
+    "@types/chrome": "0.0.35",
     "concurrently": "^2.0.0",
     "lite-server": "^2.1.0",
     "typescript": "^1.8.2",
-    "typings":"^0.6.8"
+    "typings": "^0.6.8"
   }
 }

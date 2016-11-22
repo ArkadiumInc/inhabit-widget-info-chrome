@@ -15,7 +15,17 @@
       "128": "icon128.png"
    },
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "tabs",
+    "storage"
   ],
+  "content_scripts": [
+    {
+      "run_at": "document_start",
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["./page_scripts/onPageLoad.js"]
+    }
+  ],
+  "web_accessible_resources": ["/page_scripts/pageInjectable.js"],
   "content_security_policy": "script-src 'self' 'unsafe-eval' 'sha256-UTxx46bYFUiM4qoRG1brJbIANsJwuPA7NTuilwShYC4='; object-src 'self'"
 }

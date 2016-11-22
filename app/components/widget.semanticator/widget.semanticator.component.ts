@@ -15,14 +15,13 @@ export class WidgetSemanticator {
 
     constructor(private semanticatorService:WidgetSemanticatorService) {
         this.semanticator = semanticatorService;
-        this.refreshData();
+        this.refreshData(null);
     }
 
-    refreshData(){
+    refreshData(event){
         if (this.semanticator) {
+            this.semanticator.refreshData();
             this.semanticatorEntities = this.semanticator.getEnitities();
-            this.semanticatorTags = this.semanticator.getTags();
-            this.semanticatorTaxonomy = this.semanticator.getTaxonomy();
         } else {
             this.semanticatorEntities = [];
             this.semanticatorTags = [];
