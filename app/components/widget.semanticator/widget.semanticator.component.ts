@@ -20,8 +20,10 @@ export class WidgetSemanticator {
 
     refreshData(event){
         if (this.semanticator) {
-            this.semanticator.refreshData();
-            this.semanticatorEntities = this.semanticator.getEnitities();
+            this.semanticator.refreshData()
+                 .then(() => {
+                     this.semanticatorEntities = this.semanticator.getEnitities();
+                 });
         } else {
             this.semanticatorEntities = [];
             this.semanticatorTags = [];

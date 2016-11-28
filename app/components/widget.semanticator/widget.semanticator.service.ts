@@ -18,8 +18,8 @@ export class WidgetSemanticatorService {
 
     private processResponseFromPage(response) {
         let recievedData = response;
-        if (! recievedData) {
-            console.log("WidgetSemanticatorService : response object from page is undefined");
+        if (! response) {
+            console.error("response is empty");
             return;
         }
         var thisService = this;
@@ -49,8 +49,34 @@ export class WidgetSemanticatorService {
     public refreshData() {
         this.resetData();
         var thisService = this;
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            chrome.tabs.sendMessage(tabs[0].id, {requestType: "semanticData"}, thisService.processResponseFromPage.bind(thisService));
+        return new Promise ((resolve, reject) => {
+            chrome.tabs.executeScript(null, {file: "/page_scripts/page_injectables/pageSemanticResultsRetriever.js"},
+                function(results) {
+                    if (results instanceof Array &&
+                        results.length === 1) {
+                        resolve(results[0]);
+                    }
+                    var msg = "Results from page empty";
+                    console.error(msg);
+                    reject(msg)
+                });
+
+             // chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+             //     chrome.tabs.sendMessage(tabs[0].id, {requestType: "semanticData"},
+             //         function(response){
+             //             if (!response) {
+             //                 reject("WidgetSemanticatorService : response object from page is undefined");
+             //             }
+             //             else ;
+             //         })
+             // });
+        })
+        .then((response)=> {
+            thisService.processResponseFromPage(response);
+            return true;
+        })
+        .catch ((reason) => {
+            console.log(reason);
         });
     }
 
