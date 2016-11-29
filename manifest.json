@@ -11,7 +11,8 @@
       "128": "icon128.png"
    },
   "permissions": [
-    "tabs", "http://*/*", "https://*/*"
+    "tabs",
+    "webNavigation"
   ],
   "web_accessible_resources": ["/page_scripts/page_injectables/pageEventHandlers.js",
                                "/page_scripts/page_injectables/pageResultsRetriever.js"],

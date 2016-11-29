@@ -54,20 +54,22 @@ export class WidgetSemanticatorService {
         this.resetData();
     }
 
-    private createScriptForPageReload() {
-        return "window.location.reload();" +
-                "console.log('ADDING SCRIPT the DOCUMENT!');" +
-                "if (! document.getElementById('"+ this.scriptIdCollectResults+"')) {"+
-                "var s = document.createElement('script');" +
-                "s.src = '" + chrome.extension.getURL(this.scriptSrcCollectResults)+"';" +
-                "document.body.appendChild(s); " +
-                "};"+
-                "if (! document.getElementById('"+this.scriptIdEventHandlers+"')) {"+
-                "var s = document.createElement('script');" +
-                "s.src = '" + chrome.extension.getURL(this.scriptSrcEventHandlers)+"';" +
-                "document.body.appendChild(s); " +
-                "};";
-    };
+    private createScriptToHandlePageReload() {
+        return "document.addEventListener( 'DOMContentLoaded', " +
+                    "function() {"+
+                        "console.log('ADDING SCRIPT on the DOMContentLoaded of the DOCUMENT!');" +
+                        "if (! document.getElementById('" + this.scriptIdCollectResults + "')) {" +
+                        "var s = document.createElement('script');" +
+                        "s.src = '" + chrome.extension.getURL(this.scriptSrcCollectResults) + "';" +
+                        "document.body.appendChild(s); " +
+                        "};" +
+                        "if (! document.getElementById('" + this.scriptIdEventHandlers + "')) {" +
+                        "var s = document.createElement('script');" +
+                        "s.src = '" + chrome.extension.getURL(this.scriptSrcEventHandlers) + "';" +
+                        "document.body.appendChild(s); " +
+                        "};" +
+                    "});";
+    }
 
     private createScriptForCollectingResults() {
         return "if (! document.getElementById('"+ this.scriptIdCollectResults +"')) {"+
@@ -80,12 +82,8 @@ export class WidgetSemanticatorService {
 
     public refreshPage() {
         this.resetData();
-        chrome.devtools.inspectedWindow.eval(this.createScriptForPageReload(),
-                    function(result, exceptionInfo) {
-                        if (exceptionInfo) {
-                            console.error(exceptionInfo.val);
-                        }
-                    })
+        var script = this.createScriptToHandlePageReload();
+        chrome.devtools.inspectedWindow.reload({ injectedScript: script });
     }
 
     public refreshData() {
