@@ -1,14 +1,10 @@
 {
   "manifest_version": 2,
-
   "name": "Inhabit Info",
   "description": "Displays information about Inhabit containers activity.",
-  "version": "0.1",
+  "version": "1.0",
 
-  "browser_action": {
-    "default_icon": "icon16.png",
-    "default_popup": "index.html"
-  },
+  "devtools_page": "devtools.html",
   "icons" : {
       "16": "icon16.png",
       "48": "icon48.png",
@@ -17,18 +13,7 @@
   "permissions": [
     "tabs", "http://*/*", "https://*/*"
   ],
-  "content_scripts": [
-    {
-      "run_at": "document_start",
-      "matches": ["http://*/*", "https://*/*"],
-      "js": ["./page_scripts/content_scripts/documentStart.js"]
-    }
-  ],
-  "background": {
-    "scripts": ["./page_scripts/event_pages/eventPage.js"],
-    "persistent": true
-  },
   "web_accessible_resources": ["/page_scripts/page_injectables/pageEventHandlers.js",
-                               "/page_scripts/page_injectables/pageSemanticResultsRetriever.js"],
+                               "/page_scripts/page_injectables/pageResultsRetriever.js"],
   "content_security_policy": "script-src 'self' 'unsafe-eval' 'sha256-UTxx46bYFUiM4qoRG1brJbIANsJwuPA7NTuilwShYC4='; object-src 'self'"
 }

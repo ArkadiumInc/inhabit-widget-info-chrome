@@ -9,6 +9,14 @@ export class WidgetSemanticatorService {
     private concepts : Array<SemanticAnalyzeResult<string>>;
     private taxonomy : Array<SemanticAnalyzeResult<string>>;
 
+    //Somehow readonly generates js that is not accepted by Chrome 54
+    private textClassificationCacheStorageKey = "TextClassificationCache";
+    private scriptIdCollectResults = "inhabitGetCollectResults";
+    private scriptSrcCollectResults = "/page_scripts/page_injectables/pageResultsRetriever.js";
+
+    private scriptIdEventHandlers = "inhabitEventHandlers";
+    private scriptSrcEventHandlers = "/page_scripts/page_injectables/pageEventHandlers.js";
+
     private resetData() {
         this.entities = null;
         this.keywords = null;
@@ -46,30 +54,52 @@ export class WidgetSemanticatorService {
         this.resetData();
     }
 
+    private createScriptForPageReload() {
+        return "window.location.reload();" +
+                "console.log('ADDING SCRIPT the DOCUMENT!');" +
+                "if (! document.getElementById('"+ this.scriptIdCollectResults+"')) {"+
+                "var s = document.createElement('script');" +
+                "s.src = '" + chrome.extension.getURL(this.scriptSrcCollectResults)+"';" +
+                "document.body.appendChild(s); " +
+                "};"+
+                "if (! document.getElementById('"+this.scriptIdEventHandlers+"')) {"+
+                "var s = document.createElement('script');" +
+                "s.src = '" + chrome.extension.getURL(this.scriptSrcEventHandlers)+"';" +
+                "document.body.appendChild(s); " +
+                "};";
+    };
+
+    private createScriptForCollectingResults() {
+        return "if (! document.getElementById('"+ this.scriptIdCollectResults +"')) {"+
+            "var s = document.createElement('script');" +
+            "s.src = '" + chrome.extension.getURL(this.scriptSrcCollectResults)+"';" +
+            "document.body.appendChild(s); " +
+            "};" +
+             "interactiveInhabitCollectResults('"+this.textClassificationCacheStorageKey+"');";
+    };
+
+    public refreshPage() {
+        this.resetData();
+        chrome.devtools.inspectedWindow.eval(this.createScriptForPageReload(),
+                    function(result, exceptionInfo) {
+                        if (exceptionInfo) {
+                            console.error(exceptionInfo.val);
+                        }
+                    })
+    }
+
     public refreshData() {
         this.resetData();
         var thisService = this;
         return new Promise ((resolve, reject) => {
-            chrome.tabs.executeScript(null, {file: "/page_scripts/page_injectables/pageSemanticResultsRetriever.js"},
-                function(results) {
-                    if (results instanceof Array &&
-                        results.length === 1) {
-                        resolve(results[0]);
+            chrome.devtools.inspectedWindow.eval(
+                this.createScriptForCollectingResults(),
+                function(result, exceptionInfo) {
+                    if (exceptionInfo) {
+                        console.error(exceptionInfo.value);
                     }
-                    var msg = "Results from page empty";
-                    console.error(msg);
-                    reject(msg)
+                    resolve(result);
                 });
-
-             // chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-             //     chrome.tabs.sendMessage(tabs[0].id, {requestType: "semanticData"},
-             //         function(response){
-             //             if (!response) {
-             //                 reject("WidgetSemanticatorService : response object from page is undefined");
-             //             }
-             //             else ;
-             //         })
-             // });
         })
         .then((response)=> {
             thisService.processResponseFromPage(response);

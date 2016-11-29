@@ -15,7 +15,7 @@ export class WidgetSemanticator {
 
     constructor(private semanticatorService:WidgetSemanticatorService) {
         this.semanticator = semanticatorService;
-        this.refreshData(null);
+        this.reloadPage(null);
     }
 
     refreshData(event){
@@ -30,4 +30,15 @@ export class WidgetSemanticator {
             this.semanticatorTaxonomy = [];
         }
     }
+
+    reloadPage(event){
+        this.semanticatorEntities = [];
+        this.semanticatorTags = [];
+        this.semanticatorTaxonomy = [];
+
+        if (this.semanticator) {
+            this.semanticator.refreshPage();
+        }
+    }
+
 }
