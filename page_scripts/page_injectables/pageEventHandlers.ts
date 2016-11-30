@@ -1,26 +1,80 @@
-(function(){
+//default value for the global var, should be overriden during initialization
+function inhabitWidgetInfoPushToStorage(storageKey, item) {
     "use strict";
-    window.__ark_app__ = window.__ark_app__ || {};
-    window.__ark_app__.onload = function (emitter) {
-        emitter.on('presenter.module', function (appId, module, moduleConfig) {
-            console.log('TEST: presenter.module for app '+ appId + ' got module: ' + module.moduleName + ' module index ' + moduleConfig.moduleIndex);
-        });
-        emitter.on('presenter.content', function (appId, module) {
-            console.log('TEST: presenter.content for app '+ appId + ' got content for module: ' + module.configuration.id +  ' module index ' + module.configuration.moduleIndex);
-        });
-        emitter.on('presenter.no.content', function (appId, module) {
-            console.log('TEST: presenter.no.content for app '+ appId + ' got NO content for the module: ' + module.configuration.id +  ' module index ' + module.configuration.moduleIndex);
-        });
-        emitter.on('presenter.error', function (msg) {
-            console.log('TEST: presenter.error : ' + msg);
-        });
-        emitter.on('presenter.module.getcontent.error', function (appId, module, err) {
-            console.log('TEST: presenter.module.getcontent.error for app '+ appId +' presenter module getContent error: ' + module.configuration.id + ' error : ' + err);
-        });
-        emitter.on('presenter.module.demand.error', function (appId, moduleCfg, err) {
-            console.log('TEST: presenter.module.demand.error for app '+ appId +' presenter module demanding error: ' + moduleCfg.id + ' error : ' + err);
-        });
-    };
+    var storageData = window.localStorage.getItem(storageKey) || "[]";
+    var data = JSON.parse(storageData);
+    data.push(item);
+    window.localStorage.setItem(storageKey,JSON.stringify(data));
+}
 
-    console.log("documentStart injectable script");
-})();
+function inhabitWidgetInfoAddEventHandlers(emitter) {
+    "use strict";
+    console.log("INHABIT INFO : Adding event hanlders on onLoad event and cleaning up message storage.");
+    window.localStorage.setItem(window.__inhabitWidgetInfoMessagesStorageKey, []);
+    emitter.on('presenter.module', function (appId, module, moduleConfig) {
+        console.log("INHABIT INFO : presenter.module " + window.__inhabitWidgetInfoMessagesStorageKey);
+        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
+            {
+                time: Date.now(),
+                evt: "presenter.module",
+                appId : appId,
+                modId : moduleConfig.id,
+                modIndx : moduleConfig.moduleIndex
+            });
+    });
+    emitter.on('presenter.content', function (appId, module) {
+        console.log("INHABIT INFO : presenter.content " + window.__inhabitWidgetInfoMessagesStorageKey);
+        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
+            {
+                time: Date.now(),
+                evt: 'presenter.content',
+                appId : appId,
+                modId : module.configuration.id,
+                modIndx : module.configuration.moduleIndex
+            });
+    });
+    emitter.on('presenter.no.content', function (appId, module) {
+        console.log("INHABIT INFO : presenter.no.content " + window.__inhabitWidgetInfoMessagesStorageKey);
+        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
+            {
+                time: Date.now(),
+                evt: 'presenter.no.content',
+                appId : appId,
+                modId : module.configuration.id,
+                modIndx : module.configuration.moduleIndex
+            });
+    });
+    emitter.on('presenter.error', function (msg) {
+        console.log("INHABIT INFO : presenter.error " + window.__inhabitWidgetInfoMessagesStorageKey);
+        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
+            {
+                time: Date.now(),
+                evt: 'presenter.error',
+                err : msg
+            });
+    });
+    emitter.on('presenter.module.getcontent.error', function (appId, module, err) {
+        console.log("INHABIT INFO : presenter.module.getcontent.error " + window.__inhabitWidgetInfoMessagesStorageKey);
+        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
+            {
+                time: Date.now(),
+                evt: 'presenter.module.getcontent.error',
+                appId : appId,
+                modId : module.configuration.id,
+                modIndx : module.configuration.moduleIndex,
+                err: err
+            });
+    });
+    emitter.on('presenter.module.demand.error', function (appId, moduleCfg, err) {
+        console.log("INHABIT INFO : presenter.module.demand.error " + window.__inhabitWidgetInfoMessagesStorageKey);
+        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
+            {
+                time: Date.now(),
+                evt: 'presenter.module.demand.error',
+                appId : appId,
+                modId : moduleCfg.id,
+                modIndx : moduleCfg.moduleIndex,
+                err: err
+            });
+    });
+}

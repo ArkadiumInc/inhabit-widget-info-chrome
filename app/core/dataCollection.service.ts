@@ -1,16 +1,18 @@
 import { Injectable } from "angular2/core";
-import { SemanticAnalyzeResult } from './data.models/semanticAnalyzeResult.model';
-import { SemanticEntity } from './data.models/semanticEntitiy.model';
+import { SemanticAnalyzeResult } from '../components/widget.semanticator/data.models/semanticAnalyzeResult.model';
+import { SemanticEntity } from '../components/widget.semanticator/data.models/semanticEntitiy.model';
 
 @Injectable()
-export class WidgetSemanticatorService {
+export class DataCollectionService {
     private entities : Array<SemanticAnalyzeResult<SemanticEntity>>;
     private keywords : Array<SemanticAnalyzeResult<string>>;
     private concepts : Array<SemanticAnalyzeResult<string>>;
     private taxonomy : Array<SemanticAnalyzeResult<string>>;
 
-    //Somehow readonly generates js that is not accepted by Chrome 54
+    //Somehow the readonly keyword generates js that is not accepted by Chrome 54
     private textClassificationCacheStorageKey = "TextClassificationCache";
+    private messagesLogStorageKey = "inhabitWidgetInfoMessageLog";
+
     private scriptIdCollectResults = "inhabitGetCollectResults";
     private scriptSrcCollectResults = "/page_scripts/page_injectables/pageResultsRetriever.js";
 
@@ -55,18 +57,24 @@ export class WidgetSemanticatorService {
     }
 
     private createScriptToHandlePageReload() {
-        return "document.addEventListener( 'DOMContentLoaded', " +
+        return   "window.__inhabitWidgetInfoMessagesStorageKey = '"+this.messagesLogStorageKey+"';"+
+                 "window.__ark_app__ = window.__ark_app__ || {onload:[]};"+
+                 "window.__ark_app__.onload.push(" +
+                        "function(emitter) {" +
+                            "if (! document.getElementById('" + this.scriptIdEventHandlers + "')) {" +
+                                "var s = document.createElement('script');" +
+                                "s.src = '" + chrome.extension.getURL(this.scriptSrcEventHandlers) + "';" +
+                                "s.onload = function() {inhabitWidgetInfoAddEventHandlers(emitter);};" +
+                                "document.body.insertBefore(s, document.body.firstChild);" +
+                            "};" +
+                        "}" +
+                    ");" +
+                "document.addEventListener( 'DOMContentLoaded', " +
                     "function() {"+
-                        "console.log('ADDING SCRIPT on the DOMContentLoaded of the DOCUMENT!');" +
                         "if (! document.getElementById('" + this.scriptIdCollectResults + "')) {" +
-                        "var s = document.createElement('script');" +
-                        "s.src = '" + chrome.extension.getURL(this.scriptSrcCollectResults) + "';" +
-                        "document.body.appendChild(s); " +
-                        "};" +
-                        "if (! document.getElementById('" + this.scriptIdEventHandlers + "')) {" +
-                        "var s = document.createElement('script');" +
-                        "s.src = '" + chrome.extension.getURL(this.scriptSrcEventHandlers) + "';" +
-                        "document.body.appendChild(s); " +
+                            "var s = document.createElement('script');" +
+                            "s.src = '" + chrome.extension.getURL(this.scriptSrcCollectResults) + "';" +
+                            "document.body.insertBefore(s, document.body.firstChild);" +
                         "};" +
                     "});";
     }
@@ -77,7 +85,7 @@ export class WidgetSemanticatorService {
             "s.src = '" + chrome.extension.getURL(this.scriptSrcCollectResults)+"';" +
             "document.body.appendChild(s); " +
             "};" +
-             "interactiveInhabitCollectResults('"+this.textClassificationCacheStorageKey+"');";
+             "interactiveInhabitCollectResults('"+this.textClassificationCacheStorageKey+"','"+this.messagesLogStorageKey+"');";
     };
 
     public refreshPage() {

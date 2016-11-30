@@ -1,28 +1,28 @@
 import {Component} from 'angular2/core';
-import {WidgetSemanticatorService} from './widget.semanticator.service'
+import {DataCollectionService} from '../../core/dataCollection.service'
 
 @Component({
     selector: 'inhabit-widget-semanticator',
     templateUrl: '/app/components/widget.semanticator/widget.semanticator.template.html',
     properties: ['semanticatorEntities', 'semanticatorTags', 'semanticatorTaxonomy'],
-    providers: [WidgetSemanticatorService]
+    providers: [DataCollectionService]
 })
 export class WidgetSemanticator {
     semanticatorEntities: Array<any>;
     semanticatorTags: Array<string>;
     semanticatorTaxonomy: Array<string>;
-    semanticator: WidgetSemanticatorService;
+    dataCollector: DataCollectionService;
 
-    constructor(private semanticatorService:WidgetSemanticatorService) {
-        this.semanticator = semanticatorService;
+    constructor(private semanticatorService:DataCollectionService) {
+        this.dataCollector = semanticatorService;
         this.reloadPage(null);
     }
 
     refreshData(event){
-        if (this.semanticator) {
-            this.semanticator.refreshData()
+        if (this.dataCollector) {
+            this.dataCollector.refreshData()
                  .then(() => {
-                     this.semanticatorEntities = this.semanticator.getEnitities();
+                     this.semanticatorEntities = this.dataCollector.getEnitities();
                  });
         } else {
             this.semanticatorEntities = [];
@@ -36,8 +36,8 @@ export class WidgetSemanticator {
         this.semanticatorTags = [];
         this.semanticatorTaxonomy = [];
 
-        if (this.semanticator) {
-            this.semanticator.refreshPage();
+        if (this.dataCollector) {
+            this.dataCollector.refreshPage();
         }
     }
 

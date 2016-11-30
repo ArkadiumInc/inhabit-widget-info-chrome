@@ -1,4 +1,4 @@
-//============ Utility Methods - move to module or, better, use lodash instead =======
+//============ Utility Methods - move to module or, better, someway attach lodash instead =======
 var _ = {
     get : getByPath,
     has : hasByPath
@@ -60,13 +60,13 @@ function interactiveInhabitCollectSemanticEntities(contextualUrl, textClassifica
         return entities;
     }
     for (var provider in data.val) {
-        var entity = {
-            providerName: provider + '( ' + contextualUrl + ' )' ,
-            results: []
-        };
         var allInternalResults = _.get(data.val[provider], 'Entities,'+ contextualUrl, [], ",");
         for(var internalEntity of  allInternalResults)
         {
+            var entity = {
+                providerName: provider,
+                results: []
+            };
             for (var property in internalEntity) {
                 entity.results.push (
                     { //equals SemanticEntity class structure
@@ -74,25 +74,22 @@ function interactiveInhabitCollectSemanticEntities(contextualUrl, textClassifica
                         value: JSON.stringify(internalEntity[property])
                     });
             }
+            entities.push(entity);
         }
-        entities.push(entity);
     }
 
     return entities;
 }
 
-function collectEventMessages() {
-    return [
-        { type: "event1", msg: "event 1 message" },
-        { type: "event2", msg: "event 2 message" },
-        { type: "event3", msg: "event 3 message" },
-    ]
+function collectEventMessages(messageLogStorageKey) {
+    var storageData = window.localStorage.getItem(messageLogStorageKey) || "[]";
+    return JSON.parse(storageData);
 }
 
-function interactiveInhabitCollectResults(textClassificationCacheStorageKey) {
+function interactiveInhabitCollectResults(textClassificationCacheStorageKey, messageLogStorageKey) {
     var interactiveInhabitContextualUrl = interactiveInhabitGetConextUrlFromWidget();
     return {contUrl: interactiveInhabitContextualUrl,
             entities:  interactiveInhabitCollectSemanticEntities(interactiveInhabitContextualUrl, textClassificationCacheStorageKey),
-            messages: collectEventMessages()
+            messages: collectEventMessages(messageLogStorageKey)
     };
 }
