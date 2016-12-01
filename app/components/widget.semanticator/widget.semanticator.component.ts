@@ -1,44 +1,47 @@
 import {Component} from 'angular2/core';
 import {DataCollectionService} from '../../core/dataCollection.service'
+import { SemanticAnalyzeResult } from '../../data.models/semanticAnalyzeResult.model';
+import { SemanticEntity } from '../../data.models/semanticEntitiy.model';
+
 
 @Component({
     selector: 'inhabit-widget-semanticator',
     templateUrl: '/app/components/widget.semanticator/widget.semanticator.template.html',
-    properties: ['semanticatorEntities', 'semanticatorTags', 'semanticatorTaxonomy'],
-    providers: [DataCollectionService]
+    properties: ['semanticatorEntities', 'semanticatorTags', 'semanticatorTaxonomy',
+                 'contentShown', 'contentExists', 'contentLoading' ]
 })
+
 export class WidgetSemanticator {
-    semanticatorEntities: Array<any>;
-    semanticatorTags: Array<string>;
-    semanticatorTaxonomy: Array<string>;
-    dataCollector: DataCollectionService;
+    public semanticatorEntities: Array<SemanticAnalyzeResult<SemanticEntity>>;
+    public semanticatorKeywords: Array<SemanticAnalyzeResult<string>>;
+    public semanticatorTaxonomy: Array<string>;
+    public contentExists : boolean;
+    public contentShown : boolean;
+    public contentLoading: boolean;
+    private dataCollector: DataCollectionService;
 
-    constructor(private semanticatorService:DataCollectionService) {
-        this.dataCollector = semanticatorService;
-        this.reloadPage(null);
-    }
-
-    refreshData(event){
+    public constructor(dataCollSrv:DataCollectionService) {
+        this.dataCollector = dataCollSrv;
         if (this.dataCollector) {
-            this.dataCollector.refreshData()
-                 .then(() => {
-                     this.semanticatorEntities = this.dataCollector.getEnitities();
-                 });
-        } else {
-            this.semanticatorEntities = [];
-            this.semanticatorTags = [];
-            this.semanticatorTaxonomy = [];
+            this.dataCollector.stateChanges$.subscribe(
+                msg => {
+                    this.onDataCollected (msg);
+                });
         }
     }
 
-    reloadPage(event){
-        this.semanticatorEntities = [];
-        this.semanticatorTags = [];
-        this.semanticatorTaxonomy = [];
-
-        if (this.dataCollector) {
-            this.dataCollector.refreshPage();
+    private onDataCollected (msg) {
+        if (msg.startsWith("data.refresh.")){
+            this.contentLoading = false;
+            this.semanticatorEntities = this.dataCollector.getEnitities();
+            this.semanticatorKeywords = this.dataCollector.getKeywords();
+        }
+        if (msg.startsWith("data.loading")) {
+            this.contentLoading = true;
         }
     }
 
+    public toggleExpanding($event) {
+        this.contentShown = ! this.contentShown;
+    }
 }

@@ -1,20 +1,23 @@
-<div>
-<h3>Semantic information about the current page</h3>
-   <div style="display:flex; align-content: space-between; flex-direction: row;">
-       <button (click)="refreshData($event)">Refresh Data</button>
-       <button (click)="reloadPage($event)">Reload Page</button>
-   </div>
-    <table class="table">
-        <tbody>
-        <tr *ngFor="let entity of semanticatorEntities">
-            <td>{{entity.providerName}}</td>
-            <td>
-                <div *ngFor="let result of entity.results">
-                    {{result.kind}} : {{result.value}}
-                </div>
-            </td>
-        </tr>
-
-        </tbody>
-    </table>
+<div class="contentPresenter">
+    <div class="contentHeader" (click)="toggleExpanding($event)">
+        <span template = "ngIf !contentShown">All resutls of the page semantic analyze could be shown by clicking here.</span>
+        <span template = "ngIf contentShown">Click to collapse the semantic results view.</span>
+    </div>
+    <div [ngClass]="{expandedConent: contentShown, collapsedContent: !contentShown}">
+        <table class="table">
+            <tbody>
+            <tr *ngFor="let entity of semanticatorEntities">
+                <td>{{entity.providerName}}</td>
+                <td>
+                    <div *ngFor="let result of entity.results">
+                        {{result.kind}} : {{result.value}}
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="spinner-cube-container" template = "ngIf contentLoading">
+            <div class="spinner-cube"></div>
+        </div>
+    </div>
 </div>

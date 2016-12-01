@@ -9,10 +9,8 @@ function inhabitWidgetInfoPushToStorage(storageKey, item) {
 
 function inhabitWidgetInfoAddEventHandlers(emitter) {
     "use strict";
-    console.log("INHABIT INFO : Adding event hanlders on onLoad event and cleaning up message storage.");
     window.localStorage.setItem(window.__inhabitWidgetInfoMessagesStorageKey, []);
     emitter.on('presenter.module', function (appId, module, moduleConfig) {
-        console.log("INHABIT INFO : presenter.module " + window.__inhabitWidgetInfoMessagesStorageKey);
         inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
             {
                 time: Date.now(),
@@ -23,7 +21,6 @@ function inhabitWidgetInfoAddEventHandlers(emitter) {
             });
     });
     emitter.on('presenter.content', function (appId, module) {
-        console.log("INHABIT INFO : presenter.content " + window.__inhabitWidgetInfoMessagesStorageKey);
         inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
             {
                 time: Date.now(),
@@ -34,7 +31,6 @@ function inhabitWidgetInfoAddEventHandlers(emitter) {
             });
     });
     emitter.on('presenter.no.content', function (appId, module) {
-        console.log("INHABIT INFO : presenter.no.content " + window.__inhabitWidgetInfoMessagesStorageKey);
         inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
             {
                 time: Date.now(),
@@ -45,7 +41,6 @@ function inhabitWidgetInfoAddEventHandlers(emitter) {
             });
     });
     emitter.on('presenter.error', function (msg) {
-        console.log("INHABIT INFO : presenter.error " + window.__inhabitWidgetInfoMessagesStorageKey);
         inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
             {
                 time: Date.now(),
@@ -54,7 +49,6 @@ function inhabitWidgetInfoAddEventHandlers(emitter) {
             });
     });
     emitter.on('presenter.module.getcontent.error', function (appId, module, err) {
-        console.log("INHABIT INFO : presenter.module.getcontent.error " + window.__inhabitWidgetInfoMessagesStorageKey);
         inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
             {
                 time: Date.now(),
@@ -66,7 +60,6 @@ function inhabitWidgetInfoAddEventHandlers(emitter) {
             });
     });
     emitter.on('presenter.module.demand.error', function (appId, moduleCfg, err) {
-        console.log("INHABIT INFO : presenter.module.demand.error " + window.__inhabitWidgetInfoMessagesStorageKey);
         inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
             {
                 time: Date.now(),

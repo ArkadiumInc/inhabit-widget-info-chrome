@@ -1,13 +1,17 @@
 import { Injectable } from "angular2/core";
-import { SemanticAnalyzeResult } from '../components/widget.semanticator/data.models/semanticAnalyzeResult.model';
-import { SemanticEntity } from '../components/widget.semanticator/data.models/semanticEntitiy.model';
+import { SemanticAnalyzeResult } from '../data.models/semanticAnalyzeResult.model';
+import { SemanticEntity } from '../data.models/semanticEntitiy.model';
+import { Subject }    from 'rxjs/Subject';
 
 @Injectable()
 export class DataCollectionService {
+    private stateChangesSource : Subject<string>;
+
     private entities : Array<SemanticAnalyzeResult<SemanticEntity>>;
     private keywords : Array<SemanticAnalyzeResult<string>>;
     private concepts : Array<SemanticAnalyzeResult<string>>;
     private taxonomy : Array<SemanticAnalyzeResult<string>>;
+    private messages : Array<any>;
 
     //Somehow the readonly keyword generates js that is not accepted by Chrome 54
     private textClassificationCacheStorageKey = "TextClassificationCache";
@@ -24,18 +28,14 @@ export class DataCollectionService {
         this.keywords = null;
         this.concepts = null;
         this.taxonomy = null;
+        this.messages = null;
     }
 
-    private processResponseFromPage(response) {
-        let recievedData = response;
-        if (! response) {
-            console.error("response is empty");
-            return;
-        }
+    private processEntities(entities) {
         var thisService = this;
-        if (recievedData.entities instanceof Array) {
+        if (entities instanceof Array) {
             thisService.entities = [];
-            recievedData.entities.map(function(responseEntity) {
+            entities.map(function(responseEntity) {
                 let entity  = new  SemanticAnalyzeResult<SemanticEntity>();
                 entity.providerName = responseEntity.providerName || "";
                 entity.results = [];
@@ -52,7 +52,28 @@ export class DataCollectionService {
         }
     }
 
+    private processMessages(messages) {
+        var thisService = this;
+        if (messages instanceof Array) {
+            thisService.messages = [];
+            messages.map(function(responseMsg) {
+                thisService.messages.push(responseMsg);
+            })
+        }
+    }
+
+    private processResponseFromPage(response) {
+        if (! response) {
+            console.error("response is empty");
+            return;
+        }
+        this.processEntities(response.entities);
+        this.processMessages(response.messages)
+    }
+
     public constructor() {
+        this.stateChangesSource  = new  Subject<string>();
+        this.stateChanges$ = this.stateChangesSource.asObservable();
         this.resetData();
     }
 
@@ -90,6 +111,7 @@ export class DataCollectionService {
 
     public refreshPage() {
         this.resetData();
+        this.stateChangesSource.next("data.loading");
         var script = this.createScriptToHandlePageReload();
         chrome.devtools.inspectedWindow.reload({ injectedScript: script });
     }
@@ -109,9 +131,11 @@ export class DataCollectionService {
         })
         .then((response)=> {
             thisService.processResponseFromPage(response);
+            this.stateChangesSource.next("data.refresh.succeed");
             return true;
         })
         .catch ((reason) => {
+            this.stateChangesSource.next("data.refresh.failed");
             console.log(reason);
         });
     }
@@ -132,4 +156,9 @@ export class DataCollectionService {
        return this.taxonomy;
     }
 
+    public getMessages() {
+        return this.messages;
+    }
+
+    public stateChanges$ : any;
 }
