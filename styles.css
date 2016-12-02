@@ -44,8 +44,9 @@
 .explanation-semantic-top-entities {
     display:flex;
     align-content: center;
-    justify-content: center;
+    justify-content: flex-start;
     align-items:baseline;
+    margin-left: 2em;
 }
 
 .explanation-semantic-entity-values {
@@ -83,6 +84,19 @@
 .message-item {
     margin-left: 0.4em;
 }
+
+.message-type-success {
+    color:green;
+}
+
+.message-type-failure {
+    color:orange;
+}
+
+.message-type-warning {
+    color:red;
+}
+
 
 .spinner {
     margin: auto;
