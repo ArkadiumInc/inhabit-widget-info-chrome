@@ -1,16 +1,16 @@
-.expandedConent {
+.expanded-content {
     display: inline;
     padding: 1em;
     transition: height 0.5s;
 }
 
-.collapsedContent {
+.collapsed-content {
     height: 0px;
     overflow: hidden;
     transition: height 0.5s;
 }
 
-.contentPresenter {
+.content-presenter {
     display: flex;
     flex-direction: column;
     border-color: #959595;
@@ -18,13 +18,70 @@
     border-width: thin;
     font-family: Arial;
     font-style: normal;
+    margin-top: 1em;
 }
 
-.contentHeader {
+.content-header {
     background-color:#00b7d5;
     color:white;
     font-weight:400;
     padding: 1em;
+}
+
+.semantic-entity-container {
+    display: flex;
+    flex-direction: column;
+    border-color: #959595;
+    border-style:solid;
+    border-width: thin;
+    font-family: inherit;
+    font-style: inherit;
+    margin:0.5em;
+    padding:0.5em;
+    word-wrap: break-word;
+}
+
+.explanation-semantic-top-entities {
+    display:flex;
+    align-content: center;
+    justify-content: center;
+    align-items:baseline;
+}
+
+.explanation-semantic-entity-values {
+    display:flex;
+    jusify-content:flex-end;
+    flex-wrap:wrap;
+}
+
+.explanation-semantic-entity-value {
+    border-color: #959595;
+    border-style:solid;
+    border-width: thin;
+    border-radius: 0.1em;
+    margin:0.2em;
+    padding:0.2em;
+    color:black;
+}
+
+.message-container {
+    display: flex;
+    align-content: center;
+    justify-content: flex-start;
+    padding:0.2em;
+    margin-top:0.2em;
+}
+
+.message-odd {
+    background-color: aliceblue;
+}
+
+.message-even {
+    background-color: lightcyan;
+}
+
+.message-item {
+    margin-left: 0.4em;
 }
 
 .spinner {
@@ -81,13 +138,11 @@
 }
 
 .spinner-cube-container{
-    position: fixed;
     z-index: 1;
     height: 100%;
     width: 100%;
 }
 .spinner-cube {
-    position: absolute;
     top:0;
     bottom:0;
     left:0;

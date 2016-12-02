@@ -7,7 +7,7 @@ import { SemanticEntity } from '../../data.models/semanticEntitiy.model';
 @Component({
     selector: 'inhabit-widget-semanticator',
     templateUrl: '/app/components/widget.semanticator/widget.semanticator.template.html',
-    properties: ['semanticatorEntities', 'semanticatorTags', 'semanticatorTaxonomy',
+    properties: ['semanticatorEntities', 'semanticatorTags', 'semanticatorTaxonomy', 'contextUrl',
                  'contentShown', 'contentExists', 'contentLoading' ]
 })
 
@@ -15,6 +15,7 @@ export class WidgetSemanticator {
     public semanticatorEntities: Array<SemanticAnalyzeResult<SemanticEntity>>;
     public semanticatorKeywords: Array<SemanticAnalyzeResult<string>>;
     public semanticatorTaxonomy: Array<string>;
+    public contextUrl: string;
     public contentExists : boolean;
     public contentShown : boolean;
     public contentLoading: boolean;
@@ -35,8 +36,9 @@ export class WidgetSemanticator {
             this.contentLoading = false;
             this.semanticatorEntities = this.dataCollector.getEnitities();
             this.semanticatorKeywords = this.dataCollector.getKeywords();
+            this.contextUrl = this.dataCollector.getContextUrl();
         }
-        if (msg.startsWith("data.loading")) {
+        if (msg == "data.loading") {
             this.contentLoading = true;
         }
     }

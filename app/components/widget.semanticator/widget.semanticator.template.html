@@ -1,23 +1,19 @@
-<div class="contentPresenter">
-    <div class="contentHeader" (click)="toggleExpanding($event)">
+<div class="content-presenter">
+    <div class="content-header" (click)="toggleExpanding($event)">
         <span template = "ngIf !contentShown">All resutls of the page semantic analyze could be shown by clicking here.</span>
         <span template = "ngIf contentShown">Click to collapse the semantic results view.</span>
     </div>
-    <div [ngClass]="{expandedConent: contentShown, collapsedContent: !contentShown}">
-        <table class="table">
-            <tbody>
-            <tr *ngFor="let entity of semanticatorEntities">
-                <td>{{entity.providerName}}</td>
-                <td>
-                    <div *ngFor="let result of entity.results">
+    <div [ngClass]="{'expanded-content': contentShown, 'collapsed-content': ! contentShown}">
+            <div template = "ngIf contextUrl">Content address: <a href="{{contextUrl}}" target="_blank">{{contextUrl}}</a></div>
+            <div *ngFor="let entity of semanticatorEntities" class="semantic-entity-container">
+                <div>Entity provided by {{entity.providerName}}</div>
+                <div *ngFor="let result of entity.results">
                         {{result.kind}} : {{result.value}}
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div class="spinner-cube-container" template = "ngIf contentLoading">
-            <div class="spinner-cube"></div>
-        </div>
+                </div>
+            </div>
+
+            <div class="spinner-cube-container" template = "ngIf (contentLoading && contentShown)">
+                <div class="spinner-cube"></div>
+            </div>
     </div>
 </div>

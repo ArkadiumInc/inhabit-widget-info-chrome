@@ -1,12 +1,13 @@
 import {Component} from 'angular2/core';
 import {WidgetSemanticator} from './widget.semanticator/widget.semanticator.component';
 import {WidgetExplanator} from './widget.explanator/widget.explanator.component';
+import {WidgetMessenger} from './widget.messenger/widget.messenger.component';
 import {DataCollectionService} from '../core/dataCollection.service'
 
 @Component({
     selector: 'inhabit-widget-info',
     templateUrl: '/app/components/app.component.template.html',
-    directives: [WidgetSemanticator, WidgetExplanator],
+    directives: [WidgetSemanticator, WidgetExplanator, WidgetMessenger],
     providers: [DataCollectionService]
 })
 
@@ -30,3 +31,4 @@ export class AppComponent {
         }
     }
 }
+

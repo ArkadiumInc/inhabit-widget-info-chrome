@@ -12,6 +12,7 @@ export class DataCollectionService {
     private concepts : Array<SemanticAnalyzeResult<string>>;
     private taxonomy : Array<SemanticAnalyzeResult<string>>;
     private messages : Array<any>;
+    private contextUrl : string;
 
     //Somehow the readonly keyword generates js that is not accepted by Chrome 54
     private textClassificationCacheStorageKey = "TextClassificationCache";
@@ -29,6 +30,7 @@ export class DataCollectionService {
         this.concepts = null;
         this.taxonomy = null;
         this.messages = null;
+        this.contextUrl = null;
     }
 
     private processEntities(entities) {
@@ -69,6 +71,7 @@ export class DataCollectionService {
         }
         this.processEntities(response.entities);
         this.processMessages(response.messages)
+        this.contextUrl = response.contUrl;
     }
 
     public constructor() {
@@ -158,6 +161,10 @@ export class DataCollectionService {
 
     public getMessages() {
         return this.messages;
+    }
+
+    public getContextUrl() {
+        return this.contextUrl;
     }
 
     public stateChanges$ : any;

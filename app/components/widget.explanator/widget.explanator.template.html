@@ -1,0 +1,20 @@
+<div class="content-presenter">
+    <div class="content-header" (click)="toggleExpanding($event)">
+        <span template = "ngIf !contentShown">Almost human language explanation could be shown by clicking here.</span>
+        <span template = "ngIf contentShown">Click here to collapse the explanation view.</span>
+    </div>
+    <div [ngClass]="{'expanded-content': contentShown, 'collapsed-content': !contentShown}">
+        <p template = "ngIf explanatorContextUrl">Inhabit Interactive analyzed content of the page  <a href="{{explanatorContextUrl}}" target="_blank">{{explanatorContextUrl}}</a>
+            and found that the page is about</p>
+            <inhabit-semantic-entity-explanator *ngFor="let entity of explanatorSemanticTopEntities"
+                            [semanticEntityData] = entity>
+            </inhabit-semantic-entity-explanator>
+        <div template= "ngIf (explanatorMessages && explanatorMessages.length > 0) ">
+            <p>Then the Interactive starts enumerating modules to find a suitable one</p>
+            <inhabit-messages-explanator [messages] = explanatorMessages></inhabit-messages-explanator>
+        </div>
+        <div class="spinner-cube-container" template = "ngIf (contentLoading && contentShown)">
+            <div class="spinner-cube"></div>
+        </div>
+    </div>
+</div>
