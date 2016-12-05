@@ -1,8 +1,7 @@
 //============ Utility Methods - move to module or, better, someway attach lodash instead =======
 var _interactiveInhabit = {
     get : interactiveInhabitGetByPath,
-    has : interactiveInhabitHasByPath,
-    storeVar : "__untochedPresCenterConfig__"
+    has : interactiveInhabitHasByPath
 };
 
 function interactiveInhabitFindObjectProperty(obj: Object, path:string, separator:string) {
@@ -53,7 +52,10 @@ function interactiveInhabitGetConextUrlFromWidget() {
 }
 
 function interactiveInhabitGetPresCenterConfig () {
-    return _interactiveInhabit.get(window, '__ark_app__'+_interactiveInhabit.storeVar, "[]");
+    if (window.__untochedPresCenterConfigVarName__) {
+        return _interactiveInhabit.get(window, window.__untochedPresCenterConfigVarName__, "[]");
+    }
+    return "[]";
 }
 
 function interactiveInhabitCollectSemanticEntities(contextualUrl, textClassificationCacheStorageKey) {

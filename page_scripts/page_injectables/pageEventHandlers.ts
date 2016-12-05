@@ -2,7 +2,6 @@
 var _inhabitWidgetInfoOnLoad = {
     get : interactiveInhabitGetByPath,
     has : interactiveInhabitHasByPath,
-    storeVar : "__untochedPresCenterConfig__"
 };
 
 function interactiveInhabitFindObjectProperty(obj: Object, path:string, separator:string) {
@@ -50,7 +49,7 @@ function inhabitWidgetInfoGrabUntochedPresCenterConfig() {
     if (generalConfig instanceof Array) {
         generalConfig.map(function(confEntry) {
             if (confEntry.id == "contentPresenter") {
-                window['__ark_app__' + _inhabitWidgetInfoOnLoad.storeVar] =  JSON.stringify(confEntry.cfg);
+                window[window.__untochedPresCenterConfigVarName__] =  JSON.stringify(confEntry.cfg);
             }
         })
     }

@@ -65,6 +65,10 @@
     color:black;
 }
 
+.explanation-semantic-entity-highly-probably {
+    color: green;
+    font-size: larger;
+}
 .message-container {
     display: flex;
     align-content: center;

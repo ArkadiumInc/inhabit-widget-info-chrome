@@ -1,0 +1,12 @@
+<div class="content-presenter">
+    <div class="content-header" (click)="toggleExpanding($event)">
+        <span template = "ngIf !contentShown">Raw PresCenter configuration could be shown by clicking here.</span>
+        <span template = "ngIf contentShown">Click here to collapse the raw PresCenter configuration view.</span>
+    </div>
+    <div [ngClass]="{'expanded-content': contentShown, 'collapsed-content': !contentShown}">
+        <div template = "ngIf rawJson"><pre>{{rawJson}}</pre></div>
+        <div class="spinner-cube-container" template = "ngIf (contentLoading && contentShown)">
+            <div class="spinner-cube"></div>
+        </div>
+    </div>
+</div>

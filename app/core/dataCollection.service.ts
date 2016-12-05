@@ -18,6 +18,7 @@ export class DataCollectionService {
     //Somehow the readonly keyword generates js that is not accepted by Chrome 54
     private textClassificationCacheStorageKey = "TextClassificationCache";
     private messagesLogStorageKey = "inhabitWidgetInfoMessageLog";
+    private presCenterConfigVarName = "__inhabitWidgetInfoUntouchedPresCenterConfig__";
 
     private scriptIdCollectResults = "inhabitGetCollectResults";
     private scriptSrcCollectResults = "/page_scripts/page_injectables/pageResultsRetriever.js";
@@ -89,6 +90,7 @@ export class DataCollectionService {
 
     private createScriptToHandlePageReload() {
         return   "window.__inhabitWidgetInfoMessagesStorageKey = '"+this.messagesLogStorageKey+"';"+
+                 "window.__untochedPresCenterConfigVarName__ = '"+this.presCenterConfigVarName+"';"+
                  "window.__ark_app__ = window.__ark_app__ || {onload:[]};"+
                  "window.__ark_app__.onload.push(" +
                         "function(emitter) {" +
