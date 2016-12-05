@@ -1,4 +1,42 @@
-//default value for the global var, should be overriden during initialization
+//============ Utility Methods - move to module or, better, someway attach lodash instead =======
+var _inhabitWidgetInfoOnLoad = {
+    get : interactiveInhabitGetByPath,
+    has : interactiveInhabitHasByPath,
+    storeVar : "__untochedPresCenterConfig__"
+};
+
+function interactiveInhabitFindObjectProperty(obj: Object, path:string, separator:string) {
+    if (! path) {
+        return;
+    }
+    var propertyNames = path.split( separator );
+    if (!(propertyNames instanceof Array)) {
+        return;
+    }
+    var property = obj;
+    for (var propertyName of propertyNames) {
+        property = property[propertyName];
+        if (! property) {
+            return;
+        }
+    }
+    return property;
+}
+
+function interactiveInhabitGetByPath(obj: Object, path: string, defaultValue ? :any, separator = ".") {
+    var foundProperty = interactiveInhabitFindObjectProperty(obj, path, separator);
+    if ( ! foundProperty ) {
+        return defaultValue;
+    }
+    return foundProperty;
+}
+
+function interactiveInhabitHasByPath(obj: Object, path: string, separator = ".") {
+    return  (interactiveInhabitFindObjectProperty(obj, path, separator) != undefined);
+}
+
+//============= Actions to execute during onLoad event handler==================
+
 function inhabitWidgetInfoPushToStorage(storageKey, item) {
     "use strict";
     var storageData = window.localStorage.getItem(storageKey) || "[]";
@@ -7,9 +45,21 @@ function inhabitWidgetInfoPushToStorage(storageKey, item) {
     window.localStorage.setItem(storageKey,JSON.stringify(data));
 }
 
+function inhabitWidgetInfoGrabUntochedPresCenterConfig() {
+    var generalConfig  = _inhabitWidgetInfoOnLoad.get(window, '__ark_app__.apps.app.config.config', '');
+    if (generalConfig instanceof Array) {
+        generalConfig.map(function(confEntry) {
+            if (confEntry.id == "contentPresenter") {
+                window['__ark_app__' + _inhabitWidgetInfoOnLoad.storeVar] =  JSON.stringify(confEntry.cfg);
+            }
+        })
+    }
+}
+
 function inhabitWidgetInfoAddEventHandlers(emitter) {
     "use strict";
     window.localStorage.setItem(window.__inhabitWidgetInfoMessagesStorageKey, []);
+    inhabitWidgetInfoGrabUntochedPresCenterConfig();
     emitter.on('presenter.module', function (appId, module, moduleConfig) {
         inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
             {

@@ -1,10 +1,11 @@
 //============ Utility Methods - move to module or, better, someway attach lodash instead =======
-var _ = {
-    get : getByPath,
-    has : hasByPath
+var _interactiveInhabit = {
+    get : interactiveInhabitGetByPath,
+    has : interactiveInhabitHasByPath,
+    storeVar : "__untochedPresCenterConfig__"
 };
 
-function findObjectProperty(obj: Object, path:string, separator:string) {
+function interactiveInhabitFindObjectProperty(obj: Object, path:string, separator:string) {
     if (! path) {
         return;
     }
@@ -22,25 +23,25 @@ function findObjectProperty(obj: Object, path:string, separator:string) {
     return property;
 }
 
-function getByPath(obj: Object, path: string, defaultValue ? :any, separator = ".") {
-    var foundProperty = findObjectProperty(obj, path, separator);
+function interactiveInhabitGetByPath(obj: Object, path: string, defaultValue ? :any, separator = ".") {
+    var foundProperty = interactiveInhabitFindObjectProperty(obj, path, separator);
     if ( ! foundProperty ) {
         return defaultValue;
     }
     return foundProperty;
 }
 
-function hasByPath(obj: Object, path: string, separator = ".") {
-    return  (findObjectProperty(obj, path, separator) != undefined);
+function interactiveInhabitHasByPath(obj: Object, path: string, separator = ".") {
+    return  (interactiveInhabitFindObjectProperty(obj, path, separator) != undefined);
 }
 
 //=============== Data Retrieval Methods =============================
 
 function interactiveInhabitGetTextClassSrv(){
-    if (!  _.has(window, '__ark_app__.apps.app.componentManager.instances.textClassificationService')){
+    if (!  _interactiveInhabit.has(window, '__ark_app__.apps.app.componentManager.instances.textClassificationService')){
         return null;
     }
-    return _.get(window, '__ark_app__.apps.app.componentManager.instances.textClassificationService', '');
+    return _interactiveInhabit.get(window, '__ark_app__.apps.app.componentManager.instances.textClassificationService', '');
 }
 
 function interactiveInhabitGetConextUrlFromWidget() {
@@ -49,6 +50,10 @@ function interactiveInhabitGetConextUrlFromWidget() {
         return "";
     }
     return txtClassSrv.currentUrl;
+}
+
+function interactiveInhabitGetPresCenterConfig () {
+    return _interactiveInhabit.get(window, '__ark_app__'+_interactiveInhabit.storeVar, "[]");
 }
 
 function interactiveInhabitCollectSemanticEntities(contextualUrl, textClassificationCacheStorageKey) {
@@ -60,7 +65,7 @@ function interactiveInhabitCollectSemanticEntities(contextualUrl, textClassifica
         return entities;
     }
     for (var provider in data.val) {
-        var allInternalResults = _.get(data.val[provider], 'Entities,'+ contextualUrl, [], ",");
+        var allInternalResults = _interactiveInhabit.get(data.val[provider], 'Entities,'+ contextualUrl, [], ",");
         for(var internalEntity of  allInternalResults)
         {
             var entity = {
@@ -81,7 +86,7 @@ function interactiveInhabitCollectSemanticEntities(contextualUrl, textClassifica
     return entities;
 }
 
-function collectEventMessages(messageLogStorageKey) {
+function interactiveInhabitCollectEventMessages(messageLogStorageKey) {
     var storageData = window.localStorage.getItem(messageLogStorageKey) || "[]";
     return JSON.parse(storageData);
 }
@@ -90,6 +95,7 @@ function interactiveInhabitCollectResults(textClassificationCacheStorageKey, mes
     var interactiveInhabitContextualUrl = interactiveInhabitGetConextUrlFromWidget();
     return {contUrl: interactiveInhabitContextualUrl,
             entities:  interactiveInhabitCollectSemanticEntities(interactiveInhabitContextualUrl, textClassificationCacheStorageKey),
-            messages: collectEventMessages(messageLogStorageKey)
+            messages: interactiveInhabitCollectEventMessages(messageLogStorageKey),
+            presCntCnf: interactiveInhabitGetPresCenterConfig ()
     };
 }

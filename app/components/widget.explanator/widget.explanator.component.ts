@@ -12,12 +12,13 @@ import { SemanticEntity } from '../../data.models/semanticEntitiy.model';
     selector: 'inhabit-widget-explanator',
     templateUrl: '/app/components/widget.explanator/widget.explanator.template.html',
     directives: [SemtanticEntityExplanator, MessagesExplanator],
-    properties: ['explanatorSemanticEntitiy', 'explanatorMessages', 'explanatorContextUrl',
+    properties: ['explanatorSemanticEntitiy', 'explanatorMessages', 'explanatorContextUrl', 'explanatorModules',
                  'contentShown', 'contentExists', 'contentLoading' ]
 })
 export class WidgetExplanator {
     public explanatorSemanticTopEntities: Array<SemanticAnalyzeResult<SemanticEntity>>;
     public explanatorMessages: Array<any>;
+    public explanatorModules: Array<string>;
     public explanatorContextUrl: string;
     public contentExists : boolean;
     public contentShown : boolean;
@@ -35,6 +36,20 @@ export class WidgetExplanator {
     }
 
     private dataCollector: DataCollectionService;
+    private fetchModulesFromConfig(config) {
+        var retVal = [];
+        if (config instanceof Array &&
+            config.length > 0) {
+            if (config[0].cfg &&
+                config[0].cfg.modules &&
+                config[0].cfg.modules instanceof Array) {
+                    config[0].cfg.modules.map(function(module) {
+                        retVal.push(module.id);
+                    })
+            }
+        }
+        return retVal;
+    }
     private onDataCollected (msg) {
         if (msg.startsWith("data.refresh.")){
             this.contentLoading = false;
@@ -47,6 +62,7 @@ export class WidgetExplanator {
             }
             this.explanatorMessages = this.dataCollector.getMessages();
             this.explanatorContextUrl = this.dataCollector.getContextUrl();
+            this.explanatorModules = this.fetchModulesFromConfig(this.dataCollector.getPresCenterConfig());
         }
         if (msg == "data.loading") {
             this.contentLoading = true;

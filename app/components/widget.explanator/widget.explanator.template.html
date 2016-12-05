@@ -9,6 +9,13 @@
             <inhabit-semantic-entity-explanator *ngFor="let entity of explanatorSemanticTopEntities"
                             [semanticEntityData] = entity>
             </inhabit-semantic-entity-explanator>
+        <div template= "ngIf (explanatorModules && explanatorModules.length > 0) ">
+            <p>The Interactive loaded following modules from config</p>
+            <ol>
+            <li *ngFor="let module of explanatorModules">{{module}}</li>
+            </ol>
+            <p>The Interactive modules will be examined for content from biggest number, i.e. {{explanatorModules.length}}</p>
+        </div>
         <div template= "ngIf (explanatorMessages && explanatorMessages.length > 0) ">
             <p>Then the Interactive starts enumerating modules to find a suitable one</p>
             <inhabit-messages-explanator [messages] = explanatorMessages></inhabit-messages-explanator>

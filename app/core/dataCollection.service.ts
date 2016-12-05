@@ -13,6 +13,7 @@ export class DataCollectionService {
     private taxonomy : Array<SemanticAnalyzeResult<string>>;
     private messages : Array<any>;
     private contextUrl : string;
+    private presCenterConf : any;
 
     //Somehow the readonly keyword generates js that is not accepted by Chrome 54
     private textClassificationCacheStorageKey = "TextClassificationCache";
@@ -31,6 +32,7 @@ export class DataCollectionService {
         this.taxonomy = null;
         this.messages = null;
         this.contextUrl = null;
+        this.presCenterConf = null;
     }
 
     private processEntities(entities) {
@@ -70,8 +72,13 @@ export class DataCollectionService {
             return;
         }
         this.processEntities(response.entities);
-        this.processMessages(response.messages)
+        this.processMessages(response.messages);
         this.contextUrl = response.contUrl;
+        this.presCenterConf = this.processPressCenterConfig(response.presCntCnf)
+    }
+
+    private processPressCenterConfig(config) {
+        return JSON.parse(config);
     }
 
     public constructor() {
@@ -165,6 +172,10 @@ export class DataCollectionService {
 
     public getContextUrl() {
         return this.contextUrl;
+    }
+
+    public getPresCenterConfig() {
+        return this.presCenterConf;
     }
 
     public stateChanges$ : any;
