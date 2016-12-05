@@ -1,8 +1,4 @@
 {
   "globalDevDependencies": {
-    "chrome": "registry:dt/chrome#0.0.0+20160509083626"
-  },
-  "ambientDependencies": {
-    "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#bc92442c075929849ec41d28ab618892ba493504"
   }
 }

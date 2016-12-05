@@ -1,13 +1,21 @@
 {
   "name": "inhabit-widget-info-chrome",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ArkadiumInc/inhabit-widget-info-chrome.git"
+  },
   "scripts": {
     "start": "concurrently \"npm run tsc:w\" \"npm run lite\" ",
+    "clean": "rimraf dist",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
     "typings": "typings",
-    "postinstall": "typings install"
+    "postinstall": "typings install",
+    "build": "npm run clean && npm run tsc",
+    "build_prod": "npm run build && browserify -s main dist/main.js > dist/bundle.js && npm run minify",
+    "minify": "uglifyjs dist/bundle.js --screw-ie8 --compress --mangle --output dist/bundle.min.js"
   },
   "license": "ISC",
   "dependencies": {
@@ -21,9 +29,11 @@
   },
   "devDependencies": {
     "@types/chrome": "0.0.35",
+    "@types/filesystem": "0.0.28",
+    "@types/webrtc": "0.0.21",
     "concurrently": "^2.0.0",
     "lite-server": "^2.1.0",
-    "typescript": "^1.8.2",
+    "typescript": "^2.0.0",
     "typings": "^0.6.8"
   }
 }

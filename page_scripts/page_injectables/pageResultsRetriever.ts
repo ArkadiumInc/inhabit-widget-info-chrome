@@ -1,4 +1,5 @@
 //============ Utility Methods - move to module or, better, someway attach lodash instead =======
+
 var _interactiveInhabit = {
     get : interactiveInhabitGetByPath,
     has : interactiveInhabitHasByPath

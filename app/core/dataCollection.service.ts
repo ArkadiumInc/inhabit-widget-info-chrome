@@ -88,7 +88,7 @@ export class DataCollectionService {
         this.resetData();
     }
 
-    private createScriptToHandlePageReload() {
+    private createScriptToHandlePageReload() : string {
         return   "window.__inhabitWidgetInfoMessagesStorageKey = '"+this.messagesLogStorageKey+"';"+
                  "window.__untochedPresCenterConfigVarName__ = '"+this.presCenterConfigVarName+"';"+
                  "window.__ark_app__ = window.__ark_app__ || {onload:[]};"+
@@ -125,7 +125,10 @@ export class DataCollectionService {
         this.resetData();
         this.stateChangesSource.next("data.loading");
         var script = this.createScriptToHandlePageReload();
-        chrome.devtools.inspectedWindow.reload({ injectedScript: script });
+        var reloadOptions : chrome.devtools.inspectedWindow.ReloadOptions = {
+            injectedScript : script
+        };
+        chrome.devtools.inspectedWindow.reload(reloadOptions);
     }
 
     public refreshData() {

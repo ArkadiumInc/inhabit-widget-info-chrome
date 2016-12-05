@@ -3,11 +3,12 @@ This Chrome extension is built to help gathering information about Inhabit Widge
 
 This project is based on the seed of a Chrome extension using typescript Angular 2 (07/03/2016, v2.0.0-beta.8) which is based on the Google tutorial: https://angular.io/docs/ts/latest/quickstart.html, adds Angular-CLI typical project NPM managment and the extension CSP rights to allow Angular 2 execution. 
 
-# Requirement
+# Requirements
 Install NPM (with node) for your platform: https://nodejs.org/download/release/latest/
 
-Use NPM tsc:w gulp task to compile and watch for TS file changes.
-# Use
+Use npm run tsc:w command to compile and watch for TS file changes.
+Use npm run tsc:w command to compile and watch for TS file changes.
+# Usage
 After installation in Chrome, open the client page you need to analyze and launch the Chrome DevTools window pessing Clt+Alt+I or F12. On the Chrome DevTools window, beside standard tabs like "Network", "Elements", "Sources" etc. the "Inhabit Interactive Info" tab should be shown.
 
 * On the "Inhabit Interactive Info" tab there are two buttons the "Reload client page" button and the "Grab data from the client page" button. 

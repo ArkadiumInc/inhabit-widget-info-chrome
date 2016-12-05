@@ -1,10 +1,10 @@
 //============ Utility Methods - move to module or, better, someway attach lodash instead =======
 var _inhabitWidgetInfoOnLoad = {
-    get : interactiveInhabitGetByPath,
-    has : interactiveInhabitHasByPath,
+    get : inhabitWidgetGetByPath,
+    has : inhabitWidgetHasByPath,
 };
 
-function interactiveInhabitFindObjectProperty(obj: Object, path:string, separator:string) {
+function inhabitWidgetFindObjectProperty(obj: Object, path:string, separator:string) {
     if (! path) {
         return;
     }
@@ -22,19 +22,25 @@ function interactiveInhabitFindObjectProperty(obj: Object, path:string, separato
     return property;
 }
 
-function interactiveInhabitGetByPath(obj: Object, path: string, defaultValue ? :any, separator = ".") {
-    var foundProperty = interactiveInhabitFindObjectProperty(obj, path, separator);
+function inhabitWidgetGetByPath(obj: Object, path: string, defaultValue ? :any, separator = ".") {
+    var foundProperty = inhabitWidgetFindObjectProperty(obj, path, separator);
     if ( ! foundProperty ) {
         return defaultValue;
     }
     return foundProperty;
 }
 
-function interactiveInhabitHasByPath(obj: Object, path: string, separator = ".") {
-    return  (interactiveInhabitFindObjectProperty(obj, path, separator) != undefined);
+function inhabitWidgetHasByPath(obj: Object, path: string, separator = ".") {
+    return  (inhabitWidgetFindObjectProperty(obj, path, separator) != undefined);
 }
 
 //============= Actions to execute during onLoad event handler==================
+
+interface Window {
+    __untochedPresCenterConfigVarName__: string;
+    __inhabitWidgetInfoMessagesStorageKey : string;
+}
+
 
 function inhabitWidgetInfoPushToStorage(storageKey, item) {
     "use strict";
@@ -57,66 +63,66 @@ function inhabitWidgetInfoGrabUntochedPresCenterConfig() {
 
 function inhabitWidgetInfoAddEventHandlers(emitter) {
     "use strict";
-    window.localStorage.setItem(window.__inhabitWidgetInfoMessagesStorageKey, []);
+    window.localStorage.setItem(window.__inhabitWidgetInfoMessagesStorageKey, '[]');
     inhabitWidgetInfoGrabUntochedPresCenterConfig();
     emitter.on('presenter.module', function (appId, module, moduleConfig) {
-        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
-            {
-                time: Date.now(),
-                evt: "presenter.module",
-                appId : appId,
-                modId : moduleConfig.id,
-                modIndx : moduleConfig.moduleIndex
-            });
+        var data = {
+            time: Date.now(),
+            evt: "presenter.module",
+            appId : appId,
+            modId : moduleConfig.id,
+            modIndx : moduleConfig.moduleIndex
+        };
+        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey, data);
     });
     emitter.on('presenter.content', function (appId, module) {
-        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
-            {
-                time: Date.now(),
-                evt: 'presenter.content',
-                appId : appId,
-                modId : module.configuration.id,
-                modIndx : module.configuration.moduleIndex
-            });
+        var data = {
+            time: Date.now(),
+            evt: 'presenter.content',
+            appId : appId,
+            modId : module.configuration.id,
+            modIndx : module.configuration.moduleIndex
+        };
+        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,data);
     });
     emitter.on('presenter.no.content', function (appId, module) {
-        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
-            {
-                time: Date.now(),
-                evt: 'presenter.no.content',
-                appId : appId,
-                modId : module.configuration.id,
-                modIndx : module.configuration.moduleIndex
-            });
+        var data = {
+            time: Date.now(),
+            evt: 'presenter.no.content',
+            appId : appId,
+            modId : module.configuration.id,
+            modIndx : module.configuration.moduleIndex
+        };
+        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey, data);
     });
     emitter.on('presenter.error', function (msg) {
-        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
-            {
-                time: Date.now(),
-                evt: 'presenter.error',
-                err : msg
-            });
+        var data =             {
+            time: Date.now(),
+            evt: 'presenter.error',
+            err : msg
+        };
+        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey, data);
     });
     emitter.on('presenter.module.getcontent.error', function (appId, module, err) {
-        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
-            {
-                time: Date.now(),
-                evt: 'presenter.module.getcontent.error',
-                appId : appId,
-                modId : module.configuration.id,
-                modIndx : module.configuration.moduleIndex,
-                err: err
-            });
+        var data = {
+            time: Date.now(),
+            evt: 'presenter.module.getcontent.error',
+            appId : appId,
+            modId : module.configuration.id,
+            modIndx : module.configuration.moduleIndex,
+            err: err
+        };
+        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,data);
     });
     emitter.on('presenter.module.demand.error', function (appId, moduleCfg, err) {
-        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey,
-            {
-                time: Date.now(),
-                evt: 'presenter.module.demand.error',
-                appId : appId,
-                modId : moduleCfg.id,
-                modIndx : moduleCfg.moduleIndex,
-                err: err
-            });
+        var data = {
+            time: Date.now(),
+            evt: 'presenter.module.demand.error',
+            appId : appId,
+            modId : moduleCfg.id,
+            modIndx : moduleCfg.moduleIndex,
+            err: err
+        };
+        inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey, data);
     });
 }
