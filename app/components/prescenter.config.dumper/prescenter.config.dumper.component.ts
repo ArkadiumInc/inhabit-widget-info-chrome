@@ -15,10 +15,11 @@ export class PresCenterConfigDumper{
 
     public constructor(dataCollSrv:DataCollectionService) {
         this.dataCollector = dataCollSrv;
+        var thisObj = this;
         if (this.dataCollector) {
             this.dataCollector.stateChanges$.subscribe(
                     function(msg:any) {
-                        this.onDataCollected (msg);
+                        thisObj.onDataCollected (msg);
                     }
             );
         }

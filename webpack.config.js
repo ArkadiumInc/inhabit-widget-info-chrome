@@ -2,9 +2,13 @@ var webpack = require("webpack");
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    entry: [
-        "./app/main.ts"
-        ],
+    entry: {
+        "main": "./app/main.ts",
+        "page_scripts/devtools/devtools": "./page_scripts/devtools/devtools.ts",
+        "page_scripts/page_injectables/pageEventHandlers": "./page_scripts/page_injectables/pageEventHandlers.ts",
+        "page_scripts/page_injectables/pageResultsRetriever": "./page_scripts/page_injectables/pageResultsRetriever.ts"
+    },
+
     resolve: {
         modulesDirectories: [
             "./node_modules/", "app"
@@ -12,9 +16,9 @@ module.exports = {
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
     },
     output: {
-        filename: "./zip/bundle.js",
-        libraryTarget: "amd"
-    },
+            filename: "./zip/[name].js",
+            libraryTarget: "amd"
+        },
     module: {
         loaders: [
             { test: /\.tsx?$/, loader: 'ts-loader' }

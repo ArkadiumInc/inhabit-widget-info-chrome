@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "system",
     "sourceMap": true,
     "moduleResolution": "node",
@@ -11,10 +11,6 @@
   },
   "exclude": [
     "node_modules",
-    "npm_scripts",
-    "typings/browser",
-    "typings/browser.d.ts",
-    "typings/main",
-    "typings/main.d.ts"
+    "typings"
   ]
 }

@@ -7,19 +7,16 @@
   },
   "scripts": {
     "start": "concurrently \"npm run tsc:w\" \"npm run lite\" ",
-    "clean": "rimraf zip",
+    "clean": "rimraf dist",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
     "typings": "typings",
     "postinstall": "typings install",
-    "build": "npm run tsc",
-    "build_prod": "npm run clean && mkdirp ./zip ./zip/page_scripts ./zip/libs && webpack --progress --colors -p",
-    "minify": "uglifyjs zip/*.js --screw-ie8 --compress --mangle --output zip/*.min.js"
+    "prod": "npm run clean && mkdirp ./zip ./zip/page_scripts ./zip/page_scripts/devtools ./zip/page_scripts/page_injectables ./zip/libs && webpack --progress --colors -p"
   },
   "license": "MIT",
   "dependencies": {
-    "@types/lodash": "^4.14.40",
     "angular2": "2.0.0-beta.17",
     "lodash": "^4.17.2",
     "reflect-metadata": "0.1.2",
@@ -31,6 +28,8 @@
     "@types/chrome": "0.0.35",
     "@types/filesystem": "0.0.28",
     "@types/webrtc": "0.0.21",
+    "@types/lodash": "^4.14.40",
+    "@types/es6-shim": "^0.31.32",
     "concurrently": "^2.0.0",
     "copy-webpack-plugin": "^4.0.1",
     "install": "^0.8.2",
