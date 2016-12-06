@@ -12,7 +12,7 @@ function inhabitWidgetFindObjectProperty(obj: Object, path:string, separator:str
     if (!(propertyNames instanceof Array)) {
         return;
     }
-    var property = obj;
+    var property:any = obj;
     for (var propertyName of propertyNames) {
         property = property[propertyName];
         if (! property) {
@@ -22,7 +22,7 @@ function inhabitWidgetFindObjectProperty(obj: Object, path:string, separator:str
     return property;
 }
 
-function inhabitWidgetGetByPath(obj: Object, path: string, defaultValue ? :any, separator = ".") {
+function inhabitWidgetGetByPath(obj: Object, path: string, defaultValue ? :any, separator:string = ".") {
     var foundProperty = inhabitWidgetFindObjectProperty(obj, path, separator);
     if ( ! foundProperty ) {
         return defaultValue;
@@ -30,7 +30,7 @@ function inhabitWidgetGetByPath(obj: Object, path: string, defaultValue ? :any, 
     return foundProperty;
 }
 
-function inhabitWidgetHasByPath(obj: Object, path: string, separator = ".") {
+function inhabitWidgetHasByPath(obj: Object, path: string, separator:string = ".") {
     return  (inhabitWidgetFindObjectProperty(obj, path, separator) != undefined);
 }
 
@@ -42,7 +42,7 @@ interface Window {
 }
 
 
-function inhabitWidgetInfoPushToStorage(storageKey, item) {
+function inhabitWidgetInfoPushToStorage(storageKey:string, item:any) {
     "use strict";
     var storageData = window.localStorage.getItem(storageKey) || "[]";
     var data = JSON.parse(storageData);
@@ -51,17 +51,18 @@ function inhabitWidgetInfoPushToStorage(storageKey, item) {
 }
 
 function inhabitWidgetInfoGrabUntochedPresCenterConfig() {
-    var generalConfig  = _inhabitWidgetInfoOnLoad.get(window, '__ark_app__.apps.app.config.config', '');
+    var generalConfig:any[]  = _inhabitWidgetInfoOnLoad.get(window, '__ark_app__.apps.app.config.config', '');
+    var configVarName:string = window.__untochedPresCenterConfigVarName__;
     if (generalConfig instanceof Array) {
-        generalConfig.map(function(confEntry) {
+        generalConfig.map(function(confEntry:any) {
             if (confEntry.id == "contentPresenter") {
-                window[window.__untochedPresCenterConfigVarName__] =  JSON.stringify(confEntry.cfg);
+                window[configVarName] =  JSON.stringify(confEntry.cfg);
             }
         })
     }
 }
 
-function inhabitWidgetInfoAddEventHandlers(emitter) {
+function inhabitWidgetInfoAddEventHandlers(emitter:any) {
     "use strict";
     window.localStorage.setItem(window.__inhabitWidgetInfoMessagesStorageKey, '[]');
     inhabitWidgetInfoGrabUntochedPresCenterConfig();

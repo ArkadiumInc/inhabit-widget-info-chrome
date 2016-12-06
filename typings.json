@@ -1,4 +1,3 @@
 {
-  "globalDevDependencies": {
-  }
+  //All types and dependences added via @types, maybe we will get ride of the typings at all later
 }

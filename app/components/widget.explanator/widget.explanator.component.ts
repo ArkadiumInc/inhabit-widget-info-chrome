@@ -29,28 +29,28 @@ export class WidgetExplanator {
         this.contentShown = true;
         if (this.dataCollector) {
             this.dataCollector.stateChanges$.subscribe(
-                msg => {
+                function(msg:any){
                     this.onDataCollected (msg);
                 });
         }
     }
 
     private dataCollector: DataCollectionService;
-    private fetchModulesFromConfig(config) {
-        var retVal = [];
+    private fetchModulesFromConfig(config:any) {
+        var retVal:any[] = [];
         if (config instanceof Array &&
             config.length > 0) {
             if (config[0].cfg &&
                 config[0].cfg.modules &&
                 config[0].cfg.modules instanceof Array) {
-                    config[0].cfg.modules.map(function(module) {
+                    config[0].cfg.modules.map(function(module:any) {
                         retVal.push(module.id);
                     })
             }
         }
         return retVal;
     }
-    private onDataCollected (msg) {
+    private onDataCollected (msg:any) {
         if (msg.startsWith("data.refresh.")){
             this.contentLoading = false;
             var entities = this.dataCollector.getEnitities();
@@ -69,7 +69,7 @@ export class WidgetExplanator {
         }
     }
 
-    public toggleExpanding($event) {
+    public toggleExpanding($event:any) {
         this.contentShown = ! this.contentShown;
     }
 

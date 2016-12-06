@@ -25,13 +25,13 @@ export class WidgetSemanticator {
         this.dataCollector = dataCollSrv;
         if (this.dataCollector) {
             this.dataCollector.stateChanges$.subscribe(
-                msg => {
+                function(msg:any){
                     this.onDataCollected (msg);
                 });
         }
     }
 
-    private onDataCollected (msg) {
+    private onDataCollected (msg:any) {
         if (msg.startsWith("data.refresh.")){
             this.contentLoading = false;
             this.semanticatorEntities = this.dataCollector.getEnitities();
@@ -43,7 +43,7 @@ export class WidgetSemanticator {
         }
     }
 
-    public toggleExpanding($event) {
+    public toggleExpanding($event:any) {
         this.contentShown = ! this.contentShown;
     }
 }

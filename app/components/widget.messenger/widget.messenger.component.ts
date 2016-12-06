@@ -14,7 +14,7 @@ export class WidgetMessenger {
     public contentLoading: boolean;
 
     private dataCollector: DataCollectionService;
-    private onDataCollected (msg) {
+    private onDataCollected (msg:any) {
         if (msg.startsWith("data.refresh.")){
             this.contentLoading = false;
             this.messages = this.dataCollector.getMessages();
@@ -28,19 +28,19 @@ export class WidgetMessenger {
         this.dataCollector = dataCollSrv;
         if (this.dataCollector) {
             this.dataCollector.stateChanges$.subscribe(
-                msg => {
+                function(msg:any){
                     this.onDataCollected (msg);
                 });
         }
     }
 
 
-    public toggleExpanding($event) {
+    public toggleExpanding($event:any) {
         this.contentShown = ! this.contentShown;
     }
 
 
-    public getProperties(message) {
+    public getProperties(message:any) {
         return Object.keys(message);
     }
 

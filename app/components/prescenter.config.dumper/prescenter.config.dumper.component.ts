@@ -17,14 +17,15 @@ export class PresCenterConfigDumper{
         this.dataCollector = dataCollSrv;
         if (this.dataCollector) {
             this.dataCollector.stateChanges$.subscribe(
-                msg => {
-                    this.onDataCollected (msg);
-                });
+                    function(msg:any) {
+                        this.onDataCollected (msg);
+                    }
+            );
         }
     }
 
     private dataCollector: DataCollectionService;
-    private onDataCollected (msg) {
+    private onDataCollected (msg : any) {
         if (msg.startsWith("data.refresh.")){
             this.contentLoading = false;
             this.rawJson = JSON.stringify(this.dataCollector.getPresCenterConfig(), null, 4);
@@ -34,7 +35,7 @@ export class PresCenterConfigDumper{
         }
     }
 
-    public toggleExpanding($event) {
+    public toggleExpanding($event: any) {
         this.contentShown = ! this.contentShown;
     }
 }

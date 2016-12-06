@@ -7,17 +7,17 @@
   },
   "scripts": {
     "start": "concurrently \"npm run tsc:w\" \"npm run lite\" ",
-    "clean": "rimraf dist",
+    "clean": "rimraf zip",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
     "typings": "typings",
     "postinstall": "typings install",
-    "build": "npm run clean && npm run tsc",
-    "build_prod": "npm run build && browserify -s main dist/main.js > dist/bundle.js && npm run minify",
-    "minify": "uglifyjs dist/bundle.js --screw-ie8 --compress --mangle --output dist/bundle.min.js"
+    "build": "npm run tsc",
+    "build_prod": "npm run clean && mkdirp ./zip ./zip/page_scripts ./zip/libs && webpack --progress --colors -p",
+    "minify": "uglifyjs zip/*.js --screw-ie8 --compress --mangle --output zip/*.min.js"
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@types/lodash": "^4.14.40",
     "angular2": "2.0.0-beta.17",
@@ -32,8 +32,14 @@
     "@types/filesystem": "0.0.28",
     "@types/webrtc": "0.0.21",
     "concurrently": "^2.0.0",
+    "copy-webpack-plugin": "^4.0.1",
+    "install": "^0.8.2",
     "lite-server": "^2.1.0",
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.5.4",
+    "ts-loader": "^1.3.0",
     "typescript": "^2.0.0",
-    "typings": "^0.6.8"
+    "typings": "^0.6.8",
+    "webpack": "^1.13.3"
   }
 }

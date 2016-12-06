@@ -20,13 +20,13 @@ export class AppComponent {
         this.reloadPage(null);
     }
 
-    public refreshData(event){
+    public refreshData(event:any){
         if (this.dataCollector) {
             this.dataCollector.refreshData();
         }
     }
 
-    public reloadPage(event){
+    public reloadPage(event:any){
         if (this.dataCollector) {
             this.dataCollector.refreshPage();
         }

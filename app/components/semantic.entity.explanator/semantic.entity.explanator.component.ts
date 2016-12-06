@@ -13,7 +13,7 @@ export class SemtanticEntityExplanator {
     set semanticEntityData( data:  SemanticAnalyzeResult<SemanticEntity>){
         //collecting propeties to local value first
         // to avoid firing onChange event for the elements bound to entityData for every item added
-        var resValue = {};
+        var resValue:any = {};
         for(var dataItem of data.results) {
             resValue[dataItem.kind] = JSON.parse(dataItem.value);
         }

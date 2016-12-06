@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Inhabit Info",
   "description": "Displays information about Inhabit containers activity.",
-  "version": "1.0",
+  "version": "0.0.0.1",
 
   "devtools_page": "devtools.html",
   "icons" : {

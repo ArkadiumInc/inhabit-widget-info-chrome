@@ -36,17 +36,17 @@ export class DataCollectionService {
         this.presCenterConf = null;
     }
 
-    private processEntities(entities) {
+    private processEntities(entities:any[]) {
         var thisService = this;
         if (entities instanceof Array) {
             thisService.entities = [];
             entities.map(function(responseEntity) {
-                let entity  = new  SemanticAnalyzeResult<SemanticEntity>();
+                let entity:SemanticAnalyzeResult<SemanticEntity>  = new  SemanticAnalyzeResult<SemanticEntity>();
                 entity.providerName = responseEntity.providerName || "";
                 entity.results = [];
                 if (responseEntity.results instanceof Array) {
-                    responseEntity.results.map(function(responseResult){
-                        let result = new SemanticEntity();
+                    responseEntity.results.map(function(responseResult:any){
+                        let result:SemanticEntity = new SemanticEntity();
                         result.kind  = responseResult.kind;
                         result.value = responseResult.value;
                         entity.results.push(result);
@@ -57,17 +57,17 @@ export class DataCollectionService {
         }
     }
 
-    private processMessages(messages) {
+    private processMessages(messages:any[]) {
         var thisService = this;
         if (messages instanceof Array) {
             thisService.messages = [];
-            messages.map(function(responseMsg) {
+            messages.map(function(responseMsg:any) {
                 thisService.messages.push(responseMsg);
             })
         }
     }
 
-    private processResponseFromPage(response) {
+    private processResponseFromPage(response:any) {
         if (! response) {
             console.error("response is empty");
             return;
@@ -78,7 +78,7 @@ export class DataCollectionService {
         this.presCenterConf = this.processPressCenterConfig(response.presCntCnf)
     }
 
-    private processPressCenterConfig(config) {
+    private processPressCenterConfig(config:any) {
         return JSON.parse(config);
     }
 
