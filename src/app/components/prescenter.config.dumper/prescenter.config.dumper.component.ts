@@ -3,7 +3,7 @@ import {DataCollectionService} from '../../core/dataCollection.service'
 
 @Component({
     selector: 'inhabit-prescenter-config-dumper',
-    templateUrl: 'prescenter.config.dumper.template.html',
+    templateUrl: './prescenter.config.dumper.template.html',
 })
 export class PresCenterConfigDumper{
     @Output() rawJson: string;

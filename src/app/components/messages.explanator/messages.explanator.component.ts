@@ -3,7 +3,7 @@ import {ExplanationLine} from '../../data.models/explanationLine.model';
 
 @Component({
     selector: 'inhabit-messages-explanator',
-    templateUrl: 'messages.explanator.template.html',
+    templateUrl: './messages.explanator.template.html',
 })
 export class MessagesExplanator {
     public explanationLines : Array<ExplanationLine>;

@@ -3,7 +3,7 @@ import {DataCollectionService} from '../../core/dataCollection.service'
 
 @Component({
     selector: 'inhabit-widget-messenger',
-    templateUrl: 'widget.messenger.template.html',
+    templateUrl: './widget.messenger.template.html',
 })
 export class WidgetMessenger {
     @Output() messages: Array<any>;

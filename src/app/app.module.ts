@@ -1,6 +1,6 @@
 import { NgModule }       from '@angular/core';
-
-import { AppComponent } from './components/app.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
 import { MessagesExplanator }  from './components/messages.explanator/messages.explanator.component';
 import { PresCenterConfigDumper } from './components/prescenter.config.dumper/prescenter.config.dumper.component';
 import { SemtanticEntityExplanator } from './components/semantic.entity.explanator/semantic.entity.explanator.component';
@@ -11,6 +11,7 @@ import { DataCollectionService } from './core/dataCollection.service';
 
 @NgModule({
     declarations: [
+
         AppComponent,
         MessagesExplanator,
         PresCenterConfigDumper,
@@ -18,6 +19,9 @@ import { DataCollectionService } from './core/dataCollection.service';
         WidgetExplanator,
         WidgetMessenger,
         WidgetSemanticator
+    ],
+    imports:[
+      BrowserModule
     ],
     providers: [
         DataCollectionService,

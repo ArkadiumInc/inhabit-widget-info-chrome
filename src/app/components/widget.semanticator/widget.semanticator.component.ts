@@ -6,7 +6,7 @@ import { SemanticEntity } from '../../data.models/semanticEntitiy.model';
 
 @Component({
     selector: 'inhabit-widget-semanticator',
-    templateUrl: 'widget.semanticator.template.html',
+    templateUrl: './widget.semanticator.template.html',
 })
 
 export class WidgetSemanticator {

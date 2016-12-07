@@ -1,4 +1,4 @@
-import { Injectable } from "angular2/core";
+import { Injectable } from "@angular/core";
 import { SemanticAnalyzeResult } from '../data.models/semanticAnalyzeResult.model';
 import { SemanticEntity } from '../data.models/semanticEntitiy.model';
 import { Subject }    from 'rxjs/Subject';
@@ -89,6 +89,7 @@ export class DataCollectionService {
     }
 
     private createScriptToHandlePageReload() : string {
+        if(!chrome.extension) return "";
         return   "window.__inhabitWidgetInfoMessagesStorageKey = '"+this.messagesLogStorageKey+"';"+
                  "window.__untochedPresCenterConfigVarName__ = '"+this.presCenterConfigVarName+"';"+
                  "window.__ark_app__ = window.__ark_app__ || {onload:[]};"+
@@ -122,10 +123,11 @@ export class DataCollectionService {
     };
 
     public refreshPage() {
+        if(!chrome.devtools) return "";
         this.resetData();
         this.stateChangesSource.next("data.loading");
         var script = this.createScriptToHandlePageReload();
-        var reloadOptions : chrome.devtools.inspectedWindow.ReloadOptions = {
+        var reloadOptions : any= {
             injectedScript : script
         };
         chrome.devtools.inspectedWindow.reload(reloadOptions);
@@ -162,7 +164,7 @@ export class DataCollectionService {
     public getKeywords() {
        return this.keywords;
     }
-    
+
     public getConcepts() {
        return this.concepts;
     }

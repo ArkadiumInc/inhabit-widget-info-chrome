@@ -1,37 +1,48 @@
 {
   "name": "inhabit-widget-info-chrome",
-  "version": "1.0.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ArkadiumInc/inhabit-widget-info-chrome.git"
-  },
-  "readme": "README.md",
-  "keywords": [
-    "angular",
-    "angular2-cli"
-  ],
-  "angular2-cli": {},
-  "scripts": {},
+  "version": "0.0.0",
   "license": "MIT",
+  "angular-cli": {},
+  "scripts": {
+    "start": "ng serve",
+    "lint": "tslint \"src/**/*.ts\"",
+    "test": "ng test",
+    "pree2e": "webdriver-manager update",
+    "e2e": "protractor"
+  },
+  "private": true,
   "dependencies": {
-    "@angular/common": "^2.0.0",
-    "@angular/compiler": "^2.0.0",
-    "@angular/core": "^2.0.0",
-    "@angular/forms": "^2.0.0",
-    "@angular/http": "^2.0.0",
-    "@angular/platform-browser": "^2.0.0",
-    "@angular/platform-browser-dynamic": "^2.0.0",
-    "@angular/router": "^3.0.0",
-    "es6-shim": "^0.35.1",
-    "reflect-metadata": "0.1.8",
+    "@angular/common": "2.2.3",
+    "@angular/compiler": "2.2.3",
+    "@angular/core": "2.2.3",
+    "@angular/forms": "2.2.3",
+    "@angular/http": "2.2.3",
+    "@angular/platform-browser": "2.2.3",
+    "@angular/platform-browser-dynamic": "2.2.3",
+    "@angular/router": "3.2.3",
+    "core-js": "^2.4.1",
     "rxjs": "5.0.0-beta.12",
+    "ts-helpers": "^1.1.1",
     "zone.js": "^0.6.23"
   },
   "devDependencies": {
-    "@types/chrome": "0.0.35",
-    "@types/filesystem": "0.0.28",
-    "@types/node": "0.0.2",
-    "@types/webrtc": "0.0.21",
-    "typescript": "^2.0.3"
+    "@angular/compiler-cli": "2.2.3",
+    "@types/jasmine": "2.5.38",
+    "@types/node": "^6.0.42",
+    "angular-cli": "1.0.0-beta.22-1",
+    "codelyzer": "~2.0.0-beta.1",
+    "es6-shim": "^0.35.2",
+    "jasmine-core": "2.5.2",
+    "jasmine-spec-reporter": "2.5.0",
+    "karma": "1.2.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-cli": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-remap-istanbul": "^0.2.1",
+    "protractor": "4.0.9",
+    "ts-node": "1.2.1",
+    "tslint": "^4.0.2",
+    "typescript": "~2.0.3",
+    "webdriver-manager": "10.2.5"
   }
 }

@@ -6,7 +6,7 @@ import { SemanticEntity } from '../../data.models/semanticEntitiy.model';
 
 @Component({
     selector: 'inhabit-widget-explanator',
-    templateUrl: 'widget.explanator.template.html',
+    templateUrl: './widget.explanator.template.html',
 })
 export class WidgetExplanator {
     @Output() explanatorSemanticTopEntities: Array<SemanticAnalyzeResult<SemanticEntity>>;

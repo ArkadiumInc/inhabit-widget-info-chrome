@@ -4,7 +4,7 @@ import { SemanticEntity } from '../../data.models/semanticEntitiy.model';
 
 @Component({
     selector: 'inhabit-semantic-entity-explanator',
-    templateUrl: 'semantic.entity.explanator.template.html',
+    templateUrl: './semantic.entity.explanator.template.html',
 })
 export class SemtanticEntityExplanator {
     @Output() entityData : any;
