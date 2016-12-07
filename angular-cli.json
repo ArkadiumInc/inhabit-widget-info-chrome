@@ -8,7 +8,9 @@
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "page_scripts",
+        "page_scripts/devtools/devtools.js",
+        "page_scripts/page_injectables/pageEventHandlers.js",
+        "page_scripts/page_injectables/pageResultsRetriever.js",
         "devtools.html",
         "icon16.png",
         "icon48.png",

@@ -1,40 +1,3 @@
-//============ Utility Methods - move to module or, better, someway attach lodash instead =======
-var _inhabitWidgetInfoOnLoad = {
-    get : inhabitWidgetGetByPath,
-    has : inhabitWidgetHasByPath,
-};
-
-function inhabitWidgetFindObjectProperty(obj: Object, path:string, separator:string) {
-    if (! path) {
-        return;
-    }
-    var propertyNames = path.split( separator );
-    if (!(propertyNames instanceof Array)) {
-        return;
-    }
-    var property:any = obj;
-    for (var propertyName of propertyNames) {
-        property = property[propertyName];
-        if (! property) {
-            return;
-        }
-    }
-    return property;
-}
-
-function inhabitWidgetGetByPath(obj: Object, path: string, defaultValue ? :any, separator:string = ".") {
-    var foundProperty = inhabitWidgetFindObjectProperty(obj, path, separator);
-    if ( ! foundProperty ) {
-        return defaultValue;
-    }
-    return foundProperty;
-}
-
-function inhabitWidgetHasByPath(obj: Object, path: string, separator:string = ".") {
-    return  (inhabitWidgetFindObjectProperty(obj, path, separator) != undefined);
-}
-
-//============= Actions to execute during onLoad event handler==================
 interface Window {
     __untochedPresCenterConfigVarName__: string;
     __inhabitWidgetInfoMessagesStorageKey : string;
@@ -49,22 +12,35 @@ function inhabitWidgetInfoPushToStorage(storageKey:string, item:any) {
     window.localStorage.setItem(storageKey,JSON.stringify(data));
 }
 
-function inhabitWidgetInfoGrabUntochedPresCenterConfig() {
-    var generalConfig:any[]  = _inhabitWidgetInfoOnLoad.get(window, '__ark_app__.apps.config.config', '');
-    var configVarName:string = window.__untochedPresCenterConfigVarName__;
-    if (generalConfig instanceof Array) {
-        generalConfig.map(function(confEntry:any) {
-            if (confEntry.id == "contentPresenter") {
-                window[configVarName] =  JSON.stringify(confEntry.cfg);
-            }
-        })
-    }
-}
-
 function inhabitWidgetInfoAddEventHandlers(emitter:any) {
     "use strict";
     window.localStorage.setItem(window.__inhabitWidgetInfoMessagesStorageKey, '[]');
-    inhabitWidgetInfoGrabUntochedPresCenterConfig();
+    emitter.on("presenter.module.empty.list", function(appId) {
+      var data = {
+        time: Date.now(),
+        evt: "presenter.module.empty.list",
+        appId : appId,
+      };
+      inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey, data);
+    });
+    emitter.on("app.config.fetch.failure", function(appId, err) {
+      var data = {
+        time: Date.now(),
+        evt: "app.config.fetch.failure",
+        appId : appId,
+        err: err
+      };
+      inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey, data);
+    });
+    emitter.on("app.config.fetch.success", function(appId, appConfig) {
+        var data = {
+          time: Date.now(),
+          evt: "app.config.fetch.success",
+          appId : appId
+        };
+      inhabitWidgetInfoPushToStorage( window.__inhabitWidgetInfoMessagesStorageKey, data);
+      window[window.__untochedPresCenterConfigVarName__] = JSON.parse(JSON.stringify(appConfig)); //hacky but deep copy
+    });
     emitter.on('presenter.module', function (appId, module, moduleConfig) {
         var data = {
             time: Date.now(),

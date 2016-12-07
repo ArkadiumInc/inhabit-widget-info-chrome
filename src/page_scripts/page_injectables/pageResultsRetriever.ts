@@ -41,24 +41,27 @@ interface Window {
   __untochedPresCenterConfigVarName__: string;
 }
 
-function interactiveInhabitGetTextClassSrv(){
-    if (!  _interactiveInhabit.has(window, '__ark_app__.apps.app.componentManager.instances.textClassificationService')){
-        return null;
-    }
-    return _interactiveInhabit.get(window, '__ark_app__.apps.app.componentManager.instances.textClassificationService', '');
-}
-
 function interactiveInhabitGetConextUrlFromWidget() {
-    var txtClassSrv = interactiveInhabitGetTextClassSrv();
-    if (! txtClassSrv) {
+  var txtClassSrv = _interactiveInhabit.get(window, '__ark_app__.apps.app.componentManager.instances.textClassificationService', null);
+  if (! txtClassSrv) {
         return "";
-    }
-    return txtClassSrv.currentUrl;
+   }
+  return txtClassSrv.currentUrl;
 }
 
 function interactiveInhabitGetPresCenterConfig () {
     if (window.__untochedPresCenterConfigVarName__) {
-        return _interactiveInhabit.get(window, window.__untochedPresCenterConfigVarName__, "[]");
+        var generalConfig = window[window.__untochedPresCenterConfigVarName__] || [];
+        if (generalConfig &&
+            generalConfig.config instanceof Array) {
+          var presCenterConfig = "[]";
+          generalConfig.config.map(function(confEntry : any){
+              if (confEntry.id == "contentPresenter") {
+                presCenterConfig =  JSON.stringify(confEntry.cfg);
+              }
+          });
+          return presCenterConfig;
+        }
     }
     return "[]";
 }

@@ -65,7 +65,7 @@ export class MessagesExplanator {
         }
         expLine.text += " got error";
         if (msg.err) {
-            expLine.text += msg.err;
+            expLine.text += JSON.stringify(msg.err);
         }
         expLine.type = ExplanationLine.TYPE_WARNING;
         return expLine;
@@ -84,7 +84,7 @@ export class MessagesExplanator {
             expLine.text += " on place " + (msg.modIndx + 1); //in msg module index is 0 based
         }
         if (msg.err) {
-            expLine.text += " with error " + msg.err;
+            expLine.text += " with error " + JSON.stringify(msg.err);
         }
         expLine.type = ExplanationLine.TYPE_WARNING;
         return expLine;
@@ -103,15 +103,48 @@ export class MessagesExplanator {
             expLine.text += " on place " + (msg.modIndx + 1); //in msg module index is 0 based
         }
         if (msg.err) {
-            expLine.text += " with error " + msg.err;
+            expLine.text += " with error " + JSON.stringify(msg.err);
         }
         expLine.type = ExplanationLine.TYPE_WARNING;
         return expLine;
     }
 
+    private presenterModuleEmptyListExpl(msg:any) {
+        var expLine = new ExplanationLine();
+        if (msg.time) {
+          expLine.text += "On " + (new Date(msg.time)).toUTCString();
+        }
+        expLine.text += " the modules list in config is empty, nothing to show.";
+        expLine.type = ExplanationLine.TYPE_WARNING;
+        return expLine;
+    }
+
+    private appConfigFetchFailureExpl(msg:any) {
+      var expLine = new ExplanationLine();
+      if (msg.time) {
+        expLine.text += "On " + (new Date(msg.time)).toUTCString();
+      }
+      expLine.text += " the config fetching process failed";
+      if (msg.err) {
+        expLine.text += " with error " + JSON.stringify(msg.err);
+      }
+      expLine.type = ExplanationLine.TYPE_FAILURE;
+      return expLine;
+    }
+
+    private appConfigFetchSuccessExpl(msg:any) {
+      var expLine = new ExplanationLine();
+      if (msg.time) {
+        expLine.text += "On " + (new Date(msg.time)).toUTCString();
+      }
+      expLine.text += " the config is fetched successfully.";
+      expLine.type = ExplanationLine.TYPE_DEFAULT;
+      return expLine;
+    }
+
     private wtf(msg:any) {
         var expLine = new ExplanationLine();
-        expLine.text = "Oops, something unexplainable here: " + JSON.stringify(msg);
+        expLine.text = "Oops, something unexplainable had happened here: " + JSON.stringify(msg);
         expLine.type = ExplanationLine.TYPE_FAILURE;
         return expLine;
     }
@@ -140,10 +173,21 @@ export class MessagesExplanator {
                 case ('presenter.module.demand.error') :
                     newExpLine = this.presenterModuleDemandErrorExpl(msg);
                 break;
+                case ('presenter.module.empty.list') :
+                  newExpLine = this.presenterModuleEmptyListExpl(msg);
+                break;
+                case ('app.config.fetch.failure') :
+                  newExpLine = this.appConfigFetchFailureExpl(msg);
+                break;
+                case ('app.config.fetch.success') :
+                  newExpLine = this.appConfigFetchSuccessExpl(msg);
+                break;
                 default:
                     newExpLine = this.wtf(msg);
             }
-            tmpExpLines.push(newExpLine);
+            if (newExpLine) { //so if there is no need to explain some msg, return null for it
+              tmpExpLines.push(newExpLine);
+            }
         }
         this.explanationLines = tmpExpLines;
     };
