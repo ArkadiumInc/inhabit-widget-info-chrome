@@ -3,17 +3,18 @@
   "name": "Inhabit Info",
   "description": "Displays information about Inhabit containers activity.",
   "version": "0.0.0.1",
-
   "devtools_page": "devtools.html",
-  "icons" : {
-      "16": "icon16.png",
-      "48": "icon48.png",
-      "128": "icon128.png"
-   },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
   "permissions": [
     "tabs"
   ],
-  "web_accessible_resources": ["pageEventHandlers.js",
-                               "pageResultsRetriever.js"],
+  "web_accessible_resources": [
+    "/page_scripts/page_injectables/pageEventHandlers.js",
+    "/page_scripts/page_injectables/pageResultsRetriever.js"
+  ],
   "content_security_policy": "script-src 'self' 'unsafe-eval' 'sha256-UTxx46bYFUiM4qoRG1brJbIANsJwuPA7NTuilwShYC4='; object-src 'self'"
 }
