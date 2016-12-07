@@ -1,12 +1,15 @@
 import {Component, Output} from '@angular/core';
 import {DataCollectionService} from '../../core/dataCollection.service'
 
+import {SemtanticEntityExplanator} from '../semantic.entity.explanator/semantic.entity.explanator.component';
+import {MessagesExplanator} from '../messages.explanator/messages.explanator.component';
 import { SemanticAnalyzeResult } from '../../data.models/semanticAnalyzeResult.model';
 import { SemanticEntity } from '../../data.models/semanticEntitiy.model';
 
 @Component({
     selector: 'inhabit-widget-explanator',
     templateUrl: 'widget.explanator.template.html',
+    declarations: [SemtanticEntityExplanator, MessagesExplanator]
 })
 export class WidgetExplanator {
     @Output() explanatorSemanticTopEntities: Array<SemanticAnalyzeResult<SemanticEntity>>;

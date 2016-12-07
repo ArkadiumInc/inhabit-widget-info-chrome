@@ -1,5 +1,7 @@
 import { NgModule }       from '@angular/core';
-
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule }     from '@angular/http';
+import { FormsModule }    from '@angular/forms';
 import { AppComponent } from './components/app.component';
 import { MessagesExplanator }  from './components/messages.explanator/messages.explanator.component';
 import { PresCenterConfigDumper } from './components/prescenter.config.dumper/prescenter.config.dumper.component';
@@ -10,6 +12,11 @@ import { WidgetSemanticator } from './components/widget.semanticator/widget.sema
 import { DataCollectionService } from './core/dataCollection.service';
 
 @NgModule({
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule
+    ],
     declarations: [
         AppComponent,
         MessagesExplanator,

@@ -11,10 +11,9 @@
       "128": "icon128.png"
    },
   "permissions": [
-    "tabs",
-    "webNavigation"
+    "tabs"
   ],
-  "web_accessible_resources": ["/page_scripts/page_injectables/pageEventHandlers.js",
-                               "/page_scripts/page_injectables/pageResultsRetriever.js"],
+  "web_accessible_resources": ["pageEventHandlers.js",
+                               "pageResultsRetriever.js"],
   "content_security_policy": "script-src 'self' 'unsafe-eval' 'sha256-UTxx46bYFUiM4qoRG1brJbIANsJwuPA7NTuilwShYC4='; object-src 'self'"
 }
