@@ -51,7 +51,7 @@ function inhabitWidgetInfoPushToStorage(storageKey:string, item:any) {
 }
 
 function inhabitWidgetInfoGrabUntochedPresCenterConfig() {
-    var generalConfig:any[]  = _inhabitWidgetInfoOnLoad.get(window, '__ark_app__.apps.app.config.config', '');
+    var generalConfig:any[]  = _inhabitWidgetInfoOnLoad.get(window, '__ark_app__.apps.src.config.config', '');
     var configVarName:string = window.__untochedPresCenterConfigVarName__;
     if (generalConfig instanceof Array) {
         generalConfig.map(function(confEntry:any) {

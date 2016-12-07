@@ -38,10 +38,10 @@ function interactiveInhabitHasByPath(obj: Object, path: string, separator = ".")
 //=============== Data Retrieval Methods =============================
 
 function interactiveInhabitGetTextClassSrv(){
-    if (!  _interactiveInhabit.has(window, '__ark_app__.apps.app.componentManager.instances.textClassificationService')){
+    if (!  _interactiveInhabit.has(window, '__ark_app__.apps.src.componentManager.instances.textClassificationService')){
         return null;
     }
-    return _interactiveInhabit.get(window, '__ark_app__.apps.app.componentManager.instances.textClassificationService', '');
+    return _interactiveInhabit.get(window, '__ark_app__.apps.src.componentManager.instances.textClassificationService', '');
 }
 
 function interactiveInhabitGetConextUrlFromWidget() {
