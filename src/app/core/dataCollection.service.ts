@@ -21,10 +21,10 @@ export class DataCollectionService {
     private presCenterConfigVarName = "__inhabitWidgetInfoUntouchedPresCenterConfig__";
 
     private scriptIdCollectResults = "inhabitGetCollectResults";
-    private scriptSrcCollectResults = "/page_scripts/page_injectables/pageResultsRetriever.js";
+    private scriptSrcCollectResults = "pageResultsRetriever.js";
 
     private scriptIdEventHandlers = "inhabitEventHandlers";
-    private scriptSrcEventHandlers = "/page_scripts/page_injectables/pageEventHandlers.js";
+    private scriptSrcEventHandlers = "page_injectables/pageEventHandlers.js";
 
     private resetData() {
         this.entities = null;
