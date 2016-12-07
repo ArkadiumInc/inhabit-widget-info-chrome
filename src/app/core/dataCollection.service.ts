@@ -3,6 +3,8 @@ import {SemanticAnalyzeResult} from '../data.models/semanticAnalyzeResult.model'
 import {SemanticEntity} from '../data.models/semanticEntitiy.model';
 import {Subject}    from 'rxjs/Subject';
 
+declare var chrome;
+
 @Injectable()
 export class DataCollectionService {
   private stateChangesSource: Subject<string>;
