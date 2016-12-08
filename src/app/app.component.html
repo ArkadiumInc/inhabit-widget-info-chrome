@@ -1,25 +1,41 @@
-<div>
+<div class="mdl-layout__container">
 
-  <div style="display:flex; align-content: space-between; flex-direction: row;">
-
-    <h3>Inhabit Interactive information</h3>
-
-    <div style="padding:1em; display:flex; justify-content: space-between;">
-
-      <button (click)="refreshData($event)">Grab data from the client page</button>
-
-      <button (click)="reloadPage($event)">Reload client page</button>
-
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--3-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised" (click)="refreshData($event)">Grab data from the
+        client page
+      </button>
+    </div>
+    <div class="mdl-cell mdl-cell--2-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised" (click)="reloadPage($event)">Reload client page
+      </button>
     </div>
 
   </div>
 
-  <inhabit-widget-explanator></inhabit-widget-explanator>
+  <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+    <div class="mdl-tabs__tab-bar">
+      <a href="#explanator" class="mdl-tabs__tab is-active">Explanator</a>
+      <a href="#semanticator" class="mdl-tabs__tab">Semanticator</a>
+      <a href="#messenger" class="mdl-tabs__tab">Messenger</a>
+      <a href="#config-dump" class="mdl-tabs__tab">Dump</a>
+    </div>
 
-  <inhabit-widget-semanticator></inhabit-widget-semanticator>
+    <div class="mdl-tabs__panel is-active" id="explanator">
+      <inhabit-widget-explanator></inhabit-widget-explanator>
+    </div>
 
-  <inhabit-widget-messenger></inhabit-widget-messenger>
+    <div class="mdl-tabs__panel" id="semanticator">
+      <inhabit-widget-semanticator></inhabit-widget-semanticator>
+    </div>
 
-  <inhabit-prescenter-config-dumper></inhabit-prescenter-config-dumper>
+    <div class="mdl-tabs__panel" id="messenger">
+      <inhabit-widget-messenger></inhabit-widget-messenger>
+    </div>
+
+    <div class="mdl-tabs__panel" id="config-dump">
+      <inhabit-prescenter-config-dumper></inhabit-prescenter-config-dumper>
+    </div>
+  </div>
 
 </div>
