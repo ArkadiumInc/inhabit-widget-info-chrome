@@ -1,6 +1,6 @@
-<p template="ngIf explanatorContextUrl">Inhabit Interactive analyzed content of the page <a
+<p template="ngIf explanatorContextUrl">Inhabit analyzed content of the page <a
   href="{{explanatorContextUrl}}" target="_blank">{{explanatorContextUrl}}</a>
-  and found that the page is about</p>
+  and found next:</p>
 <inhabit-semantic-entity-explanator *ngFor="let entity of explanatorSemanticTopEntities"
                                     [semanticEntityData]=entity>
 </inhabit-semantic-entity-explanator>

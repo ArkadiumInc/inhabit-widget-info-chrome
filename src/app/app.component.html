@@ -1,13 +1,12 @@
 <div class="mdl-layout__container">
 
   <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--3-col">
-      <button class="mdl-button mdl-js-button mdl-button--raised" (click)="refreshData($event)">Grab data from the
-        client page
+    <div class="mdl-cell mdl-cell--2-col">
+      <button class="mdl-button mdl-js-button mdl-button--raised" (click)="refreshData($event)">Show results
       </button>
     </div>
     <div class="mdl-cell mdl-cell--2-col">
-      <button class="mdl-button mdl-js-button mdl-button--raised" (click)="reloadPage($event)">Reload client page
+      <button class="mdl-button mdl-js-button mdl-button--raised" (click)="reloadPage($event)">Reload page
       </button>
     </div>
 
@@ -38,4 +37,8 @@
     </div>
   </div>
 
+  <div id="toastMessage" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+  </div>
 </div>

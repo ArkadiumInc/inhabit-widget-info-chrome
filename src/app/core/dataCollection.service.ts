@@ -91,41 +91,42 @@ export class DataCollectionService {
   }
 
   private createScriptToHandlePageReload(): string {
-    if (!chrome.extension) return "";
-    return "window.__inhabitWidgetInfoMessagesStorageKey = '" + this.messagesLogStorageKey + "';" +
-      "window.__untochedPresCenterConfigVarName__ = '" + this.presCenterConfigVarName + "';" +
-      "window.__ark_app__ = window.__ark_app__ || {onload:[]};" +
-      "window.__ark_app__.onload.push(" +
-      "function(emitter) {" +
-      "if (! document.getElementById('" + this.scriptIdEventHandlers + "')) {" +
-      "var s = document.createElement('script');" +
-      "s.src = '" + chrome.extension.getURL(this.scriptSrcEventHandlers) + "';" +
-      "s.onload = function() {inhabitWidgetInfoAddEventHandlers(emitter);};" +
-      "document.body.insertBefore(s, document.body.firstChild);" +
-      "};" +
-      "}" +
-      ");" +
-      "document.addEventListener( 'DOMContentLoaded', " +
-      "function() {" +
-      "if (! document.getElementById('" + this.scriptIdCollectResults + "')) {" +
-      "var s = document.createElement('script');" +
-      "s.src = '" + chrome.extension.getURL(this.scriptSrcCollectResults) + "';" +
-      "document.body.insertBefore(s, document.body.firstChild);" +
-      "};" +
-      "});";
+    if (!chrome.extension) {
+      return '';
+    }
+    return `window.__inhabitWidgetInfoMessagesStorageKey = "${this.messagesLogStorageKey}";
+      window.__untochedPresCenterConfigVarName__ = "${this.presCenterConfigVarName}";
+      window.__ark_app__ = window.__ark_app__ || {onload:[]};
+      window.__ark_app__.onload.push(
+        function(emitter) {
+          if (!document.getElementById("${this.scriptIdEventHandlers}")) {
+            var s = document.createElement('script');
+            s.src = "${chrome.extension.getURL(this.scriptSrcEventHandlers)}";
+            s.onload = function() {inhabitWidgetInfoAddEventHandlers(emitter);};
+            document.body.insertBefore(s, document.body.firstChild);
+          };
+        }
+      );
+      document.addEventListener('DOMContentLoaded', function() {
+        if (!document.getElementById("${this.scriptIdCollectResults}")) {
+          var s = document.createElement('script');
+          s.src = "${chrome.extension.getURL(this.scriptSrcCollectResults)}";
+          document.body.insertBefore(s, document.body.firstChild);
+        };
+      });`;
   }
 
   private createScriptForCollectingResults() {
-    return "if (! document.getElementById('" + this.scriptIdCollectResults + "')) {" +
-      "var s = document.createElement('script');" +
-      "s.src = '" + chrome.extension.getURL(this.scriptSrcCollectResults) + "';" +
-      "document.body.appendChild(s); " +
-      "};" +
-      "interactiveInhabitCollectResults('" + this.textClassificationCacheStorageKey + "','" + this.messagesLogStorageKey + "');";
+    return `if (!document.getElementById("${this.scriptIdCollectResults}")) {
+                var s = document.createElement('script');
+                s.src = "${chrome.extension.getURL(this.scriptSrcCollectResults)}";
+                document.body.appendChild(s);
+              };
+            interactiveInhabitCollectResults("${this.textClassificationCacheStorageKey}","${this.messagesLogStorageKey}");`;
   };
 
   public refreshPage() {
-    if (!chrome.devtools) return "";
+    if (!chrome.devtools) return '';
     this.resetData();
     this.stateChangesSource.next("data.loading");
     var script = this.createScriptToHandlePageReload();

@@ -1,8 +1,6 @@
-
 import {Component} from '@angular/core';
 
-import {DataCollectionService} from './core/dataCollection.service'
-
+import {DataCollectionService} from './core/dataCollection.service';
 
 
 @Component({
@@ -20,8 +18,7 @@ export class AppComponent {
   private dataCollector: DataCollectionService;
 
 
-
-  public constructor(dataCollSrv:DataCollectionService) {
+  public constructor(dataCollSrv: DataCollectionService) {
 
     this.dataCollector = dataCollSrv;
 
@@ -30,8 +27,7 @@ export class AppComponent {
   }
 
 
-
-  public refreshData(event:any){
+  public refreshData(event: any) {
 
     if (this.dataCollector) {
 
@@ -42,8 +38,7 @@ export class AppComponent {
   }
 
 
-
-  public reloadPage(event:any){
+  public reloadPage(event: any) {
 
     if (this.dataCollector) {
 
