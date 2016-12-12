@@ -7,6 +7,5 @@ export class WidgetCommandManagerService {
   }
 
   getNamespacedEventName(name) {
-    return chrome.runtime.id + '-' + name;
   }
 }
