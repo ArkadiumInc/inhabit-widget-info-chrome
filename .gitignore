@@ -40,3 +40,4 @@ Thumbs.db
 
 
 !/src/assets/*.js
+!/src/app/core/snippets/*.js
