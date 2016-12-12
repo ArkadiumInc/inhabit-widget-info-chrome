@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 import {SemanticAnalyzeResult} from '../data.models/semanticAnalyzeResult.model';
 import {SemanticEntity} from '../data.models/semanticEntitiy.model';
 import {Subject}    from 'rxjs/Subject';
@@ -17,16 +17,18 @@ export class DataCollectionService {
   private contextUrl: string;
   private presCenterConf: any;
 
-  //Somehow the readonly keyword generates js that is not accepted by Chrome 54
-  private textClassificationCacheStorageKey = "TextClassificationCache";
-  private messagesLogStorageKey = "inhabitWidgetInfoMessageLog";
-  private presCenterConfigVarName = "__inhabitWidgetInfoUntouchedPresCenterConfig__";
+  // Somehow the readonly keyword generates js that is not accepted by Chrome 54
+  private textClassificationCacheStorageKey = 'TextClassificationCache';
+  private messagesLogStorageKey = 'inhabitWidgetInfoMessageLog';
+  private presCenterConfigVarName = '__inhabitWidgetInfoUntouchedPresCenterConfig__';
 
-  private scriptIdCollectResults = "inhabitGetCollectResults";
-  private scriptSrcCollectResults = "/page_scripts/page_injectables/pageResultsRetriever.js";
+  private scriptIdCollectResults = 'inhabitGetCollectResults';
+  private scriptSrcCollectResults = '/page_scripts/page_injectables/pageResultsRetriever.js';
 
-  private scriptIdEventHandlers = "inhabitEventHandlers";
-  private scriptSrcEventHandlers = "/page_scripts/page_injectables/pageEventHandlers.js";
+  private scriptIdEventHandlers = 'inhabitEventHandlers';
+  private scriptSrcEventHandlers = '/page_scripts/page_injectables/pageEventHandlers.js';
+
+  public stateChanges$: any;
 
   private resetData() {
     this.entities = null;
@@ -39,7 +41,7 @@ export class DataCollectionService {
   }
 
   private processEntities(entities: any[]) {
-    var thisService = this;
+    let thisService = this;
     if (entities instanceof Array) {
       thisService.entities = [];
       entities.map(function (responseEntity) {
@@ -60,24 +62,36 @@ export class DataCollectionService {
   }
 
   private processMessages(messages: any[]) {
-    var thisService = this;
+    let thisService = this;
     if (messages instanceof Array) {
       thisService.messages = [];
       messages.map(function (responseMsg: any) {
         thisService.messages.push(responseMsg);
-      })
+      });
+    }
+  }
+
+  private processTaxonomies(taxonomies: any) {
+    let thisService = this;
+    if (taxonomies instanceof Array) {
+      thisService.taxonomy = [];
+      taxonomies.map(function (responseTaxonomy) {
+        let taxonomy: SemanticAnalyzeResult<string> = new SemanticAnalyzeResult<string>();
+        taxonomy.providerName = responseTaxonomy.providerName || '';
+      });
     }
   }
 
   private processResponseFromPage(response: any) {
     if (!response) {
-      console.error("response is empty");
+      console.error('response is empty');
       return;
     }
     this.processEntities(response.entities);
     this.processMessages(response.messages);
+    this.processTaxonomies(response.taxonomy);
     this.contextUrl = response.contUrl;
-    this.presCenterConf = this.processPressCenterConfig(response.presCntCnf)
+    this.presCenterConf = this.processPressCenterConfig(response.presCntCnf);
   }
 
   private processPressCenterConfig(config: any) {
@@ -126,11 +140,13 @@ export class DataCollectionService {
   };
 
   public refreshPage() {
-    if (!chrome.devtools) return '';
+    if (!chrome.devtools) {
+      return '';
+    }
     this.resetData();
-    this.stateChangesSource.next("data.loading");
-    var script = this.createScriptToHandlePageReload();
-    var reloadOptions: any = {
+    this.stateChangesSource.next('data.loading');
+    let script = this.createScriptToHandlePageReload();
+    let reloadOptions: any = {
       injectedScript: script
     };
     chrome.devtools.inspectedWindow.reload(reloadOptions);
@@ -138,7 +154,7 @@ export class DataCollectionService {
 
   public refreshData() {
     this.resetData();
-    var thisService = this;
+    let thisService = this;
     return new Promise((resolve, reject) => {
       chrome.devtools.inspectedWindow.eval(
         this.createScriptForCollectingResults(),
@@ -151,11 +167,11 @@ export class DataCollectionService {
     })
       .then((response) => {
         thisService.processResponseFromPage(response);
-        this.stateChangesSource.next("data.refresh.succeed");
+        this.stateChangesSource.next('data.refresh.succeed');
         return true;
       })
       .catch((reason) => {
-        this.stateChangesSource.next("data.refresh.failed");
+        this.stateChangesSource.next('data.refresh.failed');
         console.log(reason);
       });
   }
@@ -187,6 +203,4 @@ export class DataCollectionService {
   public getPresCenterConfig() {
     return this.presCenterConf;
   }
-
-  public stateChanges$: any;
 }

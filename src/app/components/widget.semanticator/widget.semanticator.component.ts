@@ -12,7 +12,7 @@ import { SemanticEntity } from '../../data.models/semanticEntitiy.model';
 export class WidgetSemanticator {
     @Output() semanticatorEntities: Array<SemanticAnalyzeResult<SemanticEntity>>;
     @Output() semanticatorKeywords: Array<SemanticAnalyzeResult<string>>;
-    @Output() semanticatorTaxonomy: Array<string>;
+    @Output() semanticatorTaxonomy: Array<SemanticAnalyzeResult<string>>;
     @Output() contextUrl: string;
     @Output() contentExists : boolean;
     @Output() contentShown : boolean;
@@ -35,6 +35,7 @@ export class WidgetSemanticator {
             this.contentLoading = false;
             this.semanticatorEntities = this.dataCollector.getEnitities();
             this.semanticatorKeywords = this.dataCollector.getKeywords();
+            this.semanticatorTaxonomy = this.dataCollector.getTaxonomy();
             this.contextUrl = this.dataCollector.getContextUrl();
         }
         if (msg == "data.loading") {

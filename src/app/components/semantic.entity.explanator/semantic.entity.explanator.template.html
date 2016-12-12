@@ -1,9 +1,13 @@
-<div class="explanation-semantic-top-entities">
-    <span template = "ngIf entityData.type">{{entityData.type}}</span>
-    <div template = "ngIf entityData.values" class="explanation-semantic-entity-values">
-        <div *ngFor="let value of entityData.values" class="explanation-semantic-entity-value">
-            {{value}}
-        </div>
+<td class="mdl-data-table__cell--non-numeric">
+  <div template="ngIf entityData.values">
+    <div *ngFor="let value of entityData.values">
+      {{value}}
     </div>
-    <span template = "ngIf entityData.score">&nbsp;with probability <span [ngClass]="{'explanation-semantic-entity-highly-probably': (entityData.score > 0.6) }">{{entityData.score | percent:'.2'}}</span></span>
-</div>
+  </div>
+</td>
+<td class="mdl-data-table__cell--non-numeric">
+<span class="mdl-chip" style="background-color:#97ff5c"><span class="mdl-chip__text">{{entityData.type}}</span></span>
+</td>
+<td>
+  {{entityData.score | percent:'.2'}}
+</td>

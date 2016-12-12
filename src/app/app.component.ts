@@ -23,27 +23,14 @@ export class AppComponent {
     this.dataCollector = dataCollSrv;
 
     this.reloadPage(null);
-
+    setInterval(this.dataCollector.refreshData.bind(this.dataCollector), 500);
   }
-
-
-  public refreshData(event: any) {
-
-    if (this.dataCollector) {
-
-      this.dataCollector.refreshData();
-
-    }
-
-  }
-
 
   public reloadPage(event: any) {
 
     if (this.dataCollector) {
 
       this.dataCollector.refreshPage();
-
     }
 
   }

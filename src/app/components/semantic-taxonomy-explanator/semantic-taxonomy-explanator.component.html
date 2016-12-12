@@ -1,0 +1,11 @@
+<td class="mdl-data-table__cell--non-numeric">
+  <div template="ngIf entityData.values">
+    <div *ngFor="let value of taxonomyData.values">
+      {{value}}
+    </div>
+  </div>
+</td>
+<td>
+  {{entityData.score | percent:'.2'}}
+</td>
+

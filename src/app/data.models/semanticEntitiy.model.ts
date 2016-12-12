@@ -1,4 +1,4 @@
 export class SemanticEntity {
-    public kind: string;
-    public value : string;
+  public kind: string;
+  public value: string;
 }
