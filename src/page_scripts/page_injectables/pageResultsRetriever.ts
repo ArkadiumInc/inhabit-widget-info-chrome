@@ -1,5 +1,4 @@
 // ============ Utility Methods - move to module or, better, someway attach lodash instead =======
-
 let _interactiveInhabit = {
   get: interactiveInhabitGetByPath,
   has: interactiveInhabitHasByPath
@@ -50,10 +49,10 @@ function interactiveInhabitGetConextUrlFromWidget() {
 
 function interactiveInhabitGetPresCenterConfig() {
   if (window.__untochedPresCenterConfigVarName__) {
-    var generalConfig = window[window.__untochedPresCenterConfigVarName__] || [];
+    let generalConfig = window[window.__untochedPresCenterConfigVarName__] || [];
     if (generalConfig &&
       generalConfig.config instanceof Array) {
-      var presCenterConfig = '[]';
+      let presCenterConfig = '[]';
       generalConfig.config.map(function (confEntry: any) {
         if (confEntry.id === 'contentPresenter') {
           presCenterConfig = JSON.stringify(confEntry.cfg);
@@ -93,7 +92,7 @@ function interactiveInhabitCollectSemanticEntities(contextualUrl, textClassifica
   return entities;
 }
 
-function interactiveInhabitCollectSemanticTaxonomy(contextualUrl, textClassificationCacheStorageKey) {
+function interactiveInhabitCollectTa(contextualUrl, textClassificationCacheStorageKey) {
   let entities = [];
   let cacheData = window.localStorage.getItem(textClassificationCacheStorageKey) || '{}';
   let data = JSON.parse(cacheData);
