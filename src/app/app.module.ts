@@ -8,7 +8,8 @@ import {WidgetExplanator} from './components/widget.explanator/widget.explanator
 import {WidgetMessenger} from './components/widget.messenger/widget.messenger.component';
 import {WidgetSemanticator} from './components/widget.semanticator/widget.semanticator.component';
 import {DataCollectionService} from './core/dataCollection.service';
-import { SemanticTaxonomyExplanatorComponent } from './components/semantic-taxonomy-explanator/semantic-taxonomy-explanator.component';
+import {WidgetCommandManagerService} from './core/widget-command-manager.service';
+import {SemanticTaxonomyExplanatorComponent} from './components/semantic-taxonomy-explanator/semantic-taxonomy-explanator.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SemanticTaxonomyExplanatorComponent } from './components/semantic-taxon
   ],
   providers: [
     DataCollectionService,
+    WidgetCommandManagerService
   ],
   bootstrap: [AppComponent]
 })
