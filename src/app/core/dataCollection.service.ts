@@ -1,5 +1,6 @@
 import * as Handlebars from 'handlebars';
 let pageReloadSnippet = require('raw-loader!./snippets/handlePageReload.js');
+let collectableResultsScript = require('raw-loader!./snippets/collectableResultsScript.js');
 import {Injectable} from '@angular/core';
 import {SemanticAnalyzeResult} from '../data.models/semanticAnalyzeResult.model';
 import {SemanticEntity} from '../data.models/semanticEntitiy.model';
@@ -145,12 +146,19 @@ export class DataCollectionService {
   }
 
   private createScriptForCollectingResults() {
-    return `if (!document.getElementById("${this.scriptIdCollectResults}")) {
-                var s = document.createElement('script');
-                s.src = "${chrome.extension.getURL(this.scriptSrcCollectResults)}";
-                document.body.appendChild(s);
-              };
-            interactiveInhabitCollectResults("${this.textClassificationCacheStorageKey}","${this.messagesLogStorageKey}");`;
+    let template = Handlebars.compile(collectableResultsScript);
+    return template({
+      scriptIdCollectResults: this.scriptSrcCollectResults,
+      scriptSrcCollectResults: chrome.extension.getURL(this.scriptSrcCollectResults),
+      textClassificationCacheStorageKey: this.textClassificationCacheStorageKey,
+      messagesLogStorageKey: this.messagesLogStorageKey
+    });
+    // return `if (!document.getElementById("${this.scriptIdCollectResults}")) {
+    //             var s = document.createElement('script');
+    //             s.src = "${chrome.extension.getURL(this.scriptSrcCollectResults)}";
+    //             document.body.appendChild(s);
+    //           };
+    //         interactiveInhabitCollectResults("${this.textClassificationCacheStorageKey}","${this.messagesLogStorageKey}");`;
   };
 
   public refreshPage() {
