@@ -120,7 +120,7 @@ export class DataCollectionService {
       scriptSrcEventHandlers: this.scriptSrcEventHandlers,
       scriptIdCollectResults: this.scriptIdCollectResults,
       scriptSrcCollectResults: this.scriptSrcCollectResults,
-      scrptEventSrc: chrome.extension.getURL(this.scriptSrcEventHandlers),
+      scriptEventSrc: chrome.extension.getURL(this.scriptSrcEventHandlers),
       scriptCollectionSrc: chrome.extension.getURL(this.scriptSrcCollectResults)
     });
   }
