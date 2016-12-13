@@ -42,6 +42,19 @@
   word-wrap: break-word;
 }
 
+.semantic-taxonomy-container {
+  display: flex;
+  flex-direction: column;
+  border-color: darkgreen;
+  border-style:dotted;
+  border-width: thin;
+  font-family: inherit;
+  font-style: inherit;
+  margin:0.5em;
+  padding:0.5em;
+  word-wrap: break-word;
+}
+
 .explanation-semantic-top-entities {
   display:flex;
   align-content: center;

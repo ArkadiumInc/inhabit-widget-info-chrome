@@ -6,6 +6,14 @@
   </div>
 </div>
 
+<div *ngFor="let taxonomy of semanticatorTaxonomy" class="semantic-taxonomy-container">
+  <div>Taxonomy provided by {{taxonomy.providerName}}</div>
+  <div *ngFor="let result of taxonomy.results">
+    {{result.kind}} : {{result.value}}
+  </div>
+</div>
+
+
 <div class="spinner-cube-container" template="ngIf (contentLoading && contentShown)">
   <div class="spinner-cube"></div>
 </div>

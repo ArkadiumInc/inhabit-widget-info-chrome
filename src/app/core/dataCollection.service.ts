@@ -13,9 +13,7 @@ export class DataCollectionService {
   private stateChangesSource: Subject<string>;
 
   private entities: Array<SemanticAnalyzeResult<SemanticEntity>>;
-  private keywords: Array<SemanticAnalyzeResult<string>>;
-  private concepts: Array<SemanticAnalyzeResult<string>>;
-  private taxonomy: Array<SemanticAnalyzeResult<string>>;
+  private taxonomy: Array<SemanticAnalyzeResult<SemanticEntity>>;
   private messages: Array<any>;
   private contextUrl: string;
   private presCenterConf: any;
@@ -35,8 +33,6 @@ export class DataCollectionService {
 
   private resetData() {
     this.entities = null;
-    this.keywords = null;
-    this.concepts = null;
     this.taxonomy = null;
     this.messages = null;
     this.contextUrl = null;
@@ -74,13 +70,23 @@ export class DataCollectionService {
     }
   }
 
-  private processTaxonomies(taxonomies: any) {
+  private processTaxonomies(taxonomies: any[]) {
     let thisService = this;
     if (taxonomies instanceof Array) {
       thisService.taxonomy = [];
-      taxonomies.map(function (responseTaxonomy) {
-        let taxonomy: SemanticAnalyzeResult<string> = new SemanticAnalyzeResult<string>();
-        taxonomy.providerName = responseTaxonomy.providerName || '';
+      taxonomies.map(function (responseTaxonomyEntity) {
+        let taxonomyEntity: SemanticAnalyzeResult<SemanticEntity> = new SemanticAnalyzeResult<SemanticEntity>();
+        taxonomyEntity.providerName = responseTaxonomyEntity.providerName || "";
+        taxonomyEntity.results = [];
+        if (responseTaxonomyEntity.results instanceof Array) {
+          responseTaxonomyEntity.results.map(function (responseResult: any) {
+            let result: SemanticEntity = new SemanticEntity();
+            result.kind = responseResult.kind;
+            result.value = responseResult.value;
+            taxonomyEntity.results.push(result);
+          });
+        }
+        thisService.taxonomy.push(taxonomyEntity);
       });
     }
   }
@@ -174,14 +180,6 @@ export class DataCollectionService {
 
   public getEnitities() {
     return this.entities;
-  }
-
-  public getKeywords() {
-    return this.keywords;
-  }
-
-  public getConcepts() {
-    return this.concepts;
   }
 
   public getTaxonomy() {
