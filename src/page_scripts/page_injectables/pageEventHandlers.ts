@@ -2,8 +2,6 @@ interface Window {
   __untochedPresCenterConfigVarName__: string;
   __inhabitWidgetInfoMessagesStorageKey: string;
 }
-
-
 function inhabitWidgetInfoPushToStorage(storageKey: string, item: any) {
   'use strict';
   let storageData = window.localStorage.getItem(storageKey) || '[]';

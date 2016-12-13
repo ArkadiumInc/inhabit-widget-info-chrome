@@ -30,6 +30,7 @@ export class DataCollectionService {
   private scriptSrcEventHandlers = '/page_scripts/page_injectables/pageEventHandlers.js';
 
   public stateChanges$: any;
+  public inhabitAttached: boolean = false;
 
   private resetData() {
     this.entities = null;
@@ -101,6 +102,9 @@ export class DataCollectionService {
     this.processTaxonomies(response.taxonomy);
     this.contextUrl = response.contUrl;
     this.presCenterConf = this.processPressCenterConfig(response.presCntCnf);
+    if (this.contextUrl) {
+      this.inhabitAttached = true;
+    }
   }
 
   private processPressCenterConfig(config: any) {
@@ -183,7 +187,7 @@ export class DataCollectionService {
   }
 
   public getTaxonomy() {
-    return this.taxonomy;
+    return this.taxonomy || [];
   }
 
   public getMessages() {

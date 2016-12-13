@@ -1,13 +1,6 @@
 <div class="mdl-grid">
-  <div class="mdl-cell mdl-cell--12-col">
-    <p template="ngIf explanatorContextUrl">Inhabit analyzed content of the page
-      <a href="{{explanatorContextUrl}}" target="_blank">{{explanatorContextUrl}}</a>
-      and found next:
-    </p>
-  </div>
-</div>
-<div class="mdl-grid">
-  <div class="mdl-cell mdl-cell--4-col">
+  <div class="mdl-cell mdl-cell--5-col">
+    <h4>Entities</h4>
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
       <thead>
       <tr>
@@ -23,31 +16,31 @@
       </tbody>
     </table>
   </div>
-  <div class="mdl-cell mdl-cell--4-col">
-    <!--<table class="mdl-data-table mdl-js-data-table mdl-shadow&#45;&#45;2dp">-->
-      <!--<thead>-->
-      <!--<tr>-->
-        <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric">Value</th>-->
-        <!--<th class="mdl-data-table__cell&#45;&#45;non-numeric">Type</th>-->
-        <!--<th>Relevancy</th>-->
-      <!--</tr>-->
-      <!--</thead>-->
-      <!--<tbody>-->
-      <!--<tr *ngFor="let taxonomy of explanatorSemanticTopTaxonomy" app-semantic-taxonomy-explanator-->
-          <!--[semanticTaxonomyData]=taxonomy>-->
-      <!--</tr>-->
-      <!--</tbody>-->
-    <!--</table>-->
+  <div class="mdl-cell mdl-cell--5-col" *ngIf="taxonomyExists">
+    <h4>Taxonomy</h4>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+      <thead>
+      <tr>
+        <th class="mdl-data-table__cell--non-numeric">Value</th>
+        <th>Relevancy</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let taxonomy of explanatorSemanticTopTaxonomy" app-semantic-taxonomy-explanator
+          [semanticTaxonomyData]=taxonomy>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--12-col">
     <div template="ngIf (explanatorModules && explanatorModules.length > 0) ">
-      <p>The Interactive loaded following modules from config</p>
+      <p>Factives listed inside the InHabit</p>
       <ol>
         <li *ngFor="let module of explanatorModules">{{module}}</li>
       </ol>
-      <p>The Interactive modules will be examined for content starting from the place with the biggest number, i.e.
+      <p>Chain will start from the factive number:
         {{explanatorModules.length}}</p>
     </div>
   </div>
@@ -55,7 +48,7 @@
 <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--12-col">
     <div template="ngIf (explanatorMessages && explanatorMessages.length > 0) ">
-      <p>Then the Interactive starts enumerating modules to find one with content:</p>
+      <p>Loading process events:</p>
       <inhabit-messages-explanator [messages]=explanatorMessages></inhabit-messages-explanator>
     </div>
   </div>

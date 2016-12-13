@@ -7,11 +7,14 @@ import {SemanticEntity} from '../../data.models/semanticEntitiy.model';
   templateUrl: './semantic-taxonomy-explanator.component.html',
   styleUrls: ['./semantic-taxonomy-explanator.component.css']
 })
-export class SemanticTaxonomyExplanatorComponent{
-  @Output() taxonomyData: SemanticAnalyzeResult<SemanticEntity>;
+export class SemanticTaxonomyExplanatorComponent {
+  @Output() taxonomyData: any;
 
   @Input()
   set semanticTaxonomyData(data: SemanticAnalyzeResult<SemanticEntity>) {
-    this.taxonomyData = data;
+    this.taxonomyData = {};
+    for (let item of data.results) {
+      this.taxonomyData[item.kind] = JSON.parse(item.value);
+    }
   }
 }

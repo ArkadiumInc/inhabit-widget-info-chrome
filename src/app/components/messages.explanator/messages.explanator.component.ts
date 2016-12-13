@@ -153,7 +153,7 @@ export class MessagesExplanator {
     set messages( msgs:  Array<any>){
         var tmpExpLines = new Array<ExplanationLine>();
         for(let msg of msgs) {
-            var newExpLine : ExplanationLine;
+            var newExpLine : ExplanationLine = null;
             switch(msg.evt) {
                 case ('presenter.module') :
                     newExpLine = this.presenterModuleExpl(msg);
@@ -165,16 +165,16 @@ export class MessagesExplanator {
                     newExpLine = this.presenterNoContentExpl(msg);
                 break;
                 case ('presenter.error') :
-                    newExpLine = this.presenterErrorExpl(msg);
+                    //newExpLine = this.presenterErrorExpl(msg);
                 break;
                 case ('presenter.module.getcontent.error') :
-                    newExpLine = this.presenterModuleGetcontentErrorExpl(msg);
+                    //newExpLine = this.presenterModuleGetcontentErrorExpl(msg);
                 break;
                 case ('presenter.module.demand.error') :
                     newExpLine = this.presenterModuleDemandErrorExpl(msg);
                 break;
                 case ('presenter.module.empty.list') :
-                  newExpLine = this.presenterModuleEmptyListExpl(msg);
+                  //newExpLine = this.presenterModuleEmptyListExpl(msg);
                 break;
                 case ('app.config.fetch.failure') :
                   newExpLine = this.appConfigFetchFailureExpl(msg);

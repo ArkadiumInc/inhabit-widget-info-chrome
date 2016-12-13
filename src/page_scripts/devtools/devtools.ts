@@ -1,7 +1,7 @@
 namespace DevTools {
-  declare var chrome;
+  declare let chrome;
   chrome.devtools.panels.create(
-    "Inhabit Interactive Info",
+    "Inhabit",
     "icon16.png",
     "index.html");
 }

@@ -12,16 +12,13 @@ import { SemanticAnalyzeResult } from '../../data.models/semanticAnalyzeResult.m
 export var SemanticTaxonomyExplanatorComponent = (function () {
     function SemanticTaxonomyExplanatorComponent() {
     }
-    SemanticTaxonomyExplanatorComponent.prototype.ngOnInit = function () {
-    };
     Object.defineProperty(SemanticTaxonomyExplanatorComponent.prototype, "semanticTaxonomyData", {
         set: function (data) {
-            var resValue = {};
+            this.taxonomyData = {};
             for (var _i = 0, _a = data.results; _i < _a.length; _i++) {
-                var dataItem = _a[_i];
-                resValue[dataItem] = JSON.parse(dataItem);
+                var item = _a[_i];
+                this.taxonomyData[item.kind] = JSON.parse(item.value);
             }
-            this.taxonomyData = resValue;
         },
         enumerable: true,
         configurable: true

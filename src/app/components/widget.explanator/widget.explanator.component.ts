@@ -17,6 +17,7 @@ export class WidgetExplanator {
   @Output() contentShown: boolean;
   @Output() contentExists: boolean;
   @Output() contentLoading: boolean;
+  @Output() taxonomyExists: boolean = false;
 
   private dataCollector: DataCollectionService;
 
@@ -67,8 +68,10 @@ export class WidgetExplanator {
       taxonomies.length > 0) {
       //TODO take top items after ordering by score(currenly assume it is already ordered)
       this.explanatorSemanticTopTaxonomy = taxonomies.slice(0, 5);
+      this.taxonomyExists = true;
     } else {
       this.explanatorSemanticTopTaxonomy = [];
+      this.taxonomyExists = false;
     }
   }
 

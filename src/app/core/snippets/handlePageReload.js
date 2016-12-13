@@ -1,5 +1,6 @@
 window.__inhabitWidgetInfoMessagesStorageKey = "{{messagesLogStorageKey}}";
 window.__untochedPresCenterConfigVarName__ = "{{presCenterConfigVarName}}";
+window.localStorage.setItem(window.__inhabitWidgetInfoMessagesStorageKey, '[]');
 window.__ark_app__ = window.__ark_app__ || {onload: []};
 window.__ark_app__.onload.push(
   function (emitter) {

@@ -1,37 +1,46 @@
-<div class="mdl-layout__container">
-  <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--2-col">
-      <button class="mdl-button mdl-js-button mdl-button--raised" (click)="reloadPage($event)">Reload page
-      </button>
+<div class="mdl-layout__container" >
+  <div class="mdl-grid" *ngIf="!inhabitFound && !notFound ">
+    <div class="mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+  </div>
+  <div class="mdl-grid" *ngIf="!inhabitFound && !notFound ">
+   <span><h5>Looking for Inhabit...</h5></span>
+  </div>
+  <div class="mdl-grid" *ngIf="notFound">
+    <h5>InHabit was not found on this page</h5>
+  </div>
+  <div class="mdl-grid" >
+
+    <button class="mdl-button mdl-js-button mdl-button--raised" (click)="reloadPage($event)">Reload page
+    </button>
+    <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect" *ngIf="inhabitFound" >
+      <div class="mdl-tabs__tab-bar">
+        <a href="#explanator" class="mdl-tabs__tab is-active">Explanator</a>
+        <a href="#semanticator" class="mdl-tabs__tab">Semanticator</a>
+        <a href="#messenger" class="mdl-tabs__tab">Messenger</a>
+        <a href="#config-dump" class="mdl-tabs__tab">Dump</a>
+      </div>
+
+      <div class="mdl-tabs__panel is-active" id="explanator">
+        <inhabit-widget-explanator></inhabit-widget-explanator>
+      </div>
+
+      <div class="mdl-tabs__panel" id="semanticator">
+        <inhabit-widget-semanticator></inhabit-widget-semanticator>
+      </div>
+
+      <div class="mdl-tabs__panel" id="messenger">
+        <inhabit-widget-messenger></inhabit-widget-messenger>
+      </div>
+
+      <div class="mdl-tabs__panel" id="config-dump">
+        <inhabit-prescenter-config-dumper></inhabit-prescenter-config-dumper>
+      </div>
+    </div>
+
+    <div id="toastMessage" class="mdl-js-snackbar mdl-snackbar">
+      <div class="mdl-snackbar__text"></div>
+      <button class="mdl-snackbar__action" type="button"></button>
     </div>
   </div>
-  <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-    <div class="mdl-tabs__tab-bar">
-      <a href="#explanator" class="mdl-tabs__tab is-active">Explanator</a>
-      <a href="#semanticator" class="mdl-tabs__tab">Semanticator</a>
-      <a href="#messenger" class="mdl-tabs__tab">Messenger</a>
-      <a href="#config-dump" class="mdl-tabs__tab">Dump</a>
-    </div>
 
-    <div class="mdl-tabs__panel is-active" id="explanator">
-      <inhabit-widget-explanator></inhabit-widget-explanator>
-    </div>
-
-    <div class="mdl-tabs__panel" id="semanticator">
-      <inhabit-widget-semanticator></inhabit-widget-semanticator>
-    </div>
-
-    <div class="mdl-tabs__panel" id="messenger">
-      <inhabit-widget-messenger></inhabit-widget-messenger>
-    </div>
-
-    <div class="mdl-tabs__panel" id="config-dump">
-      <inhabit-prescenter-config-dumper></inhabit-prescenter-config-dumper>
-    </div>
-  </div>
-
-  <div id="toastMessage" class="mdl-js-snackbar mdl-snackbar">
-    <div class="mdl-snackbar__text"></div>
-    <button class="mdl-snackbar__action" type="button"></button>
-  </div>
 </div>
