@@ -10,7 +10,7 @@ import {SemanticEntity} from '../../data.models/semanticEntitiy.model';
 })
 export class WidgetExplanator {
   @Output() explanatorSemanticTopEntities: Array<SemanticAnalyzeResult<SemanticEntity>>;
-  @Output() explanatorSemtanticTopTaxonomy: Array<SemanticAnalyzeResult<string>>;
+  @Output() explanatorSemanticTopTaxonomy: Array<SemanticAnalyzeResult<SemanticEntity>>;
   @Output() explanatorMessages: Array<any>;
   @Output() explanatorModules: Array<string>;
   @Output() explanatorContextUrl: string;
@@ -65,9 +65,10 @@ export class WidgetExplanator {
     let taxonomies = this.dataCollector.getTaxonomy();
     if (taxonomies instanceof Array &&
       taxonomies.length > 0) {
-      this.explanatorSemtanticTopTaxonomy = taxonomies.slice(0, 5);
+      //TODO take top items after ordering by score(currenly assume it is already ordered)
+      this.explanatorSemanticTopTaxonomy = taxonomies.slice(0, 5);
     } else {
-      this.explanatorSemtanticTopTaxonomy = [];
+      this.explanatorSemanticTopTaxonomy = [];
     }
   }
 
@@ -75,6 +76,7 @@ export class WidgetExplanator {
     let entities = this.dataCollector.getEnitities();
     if (entities instanceof Array &&
       entities.length > 0) {
+      //TODO take top items after ordering by score(currenly assume it is already ordered)
       this.explanatorSemanticTopEntities = entities.slice(0, 5);
     } else {
       this.explanatorSemanticTopEntities = [];

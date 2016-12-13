@@ -92,32 +92,32 @@ function interactiveInhabitCollectSemanticEntities(contextualUrl, textClassifica
   return entities;
 }
 
-function interactiveInhabitCollectTa(contextualUrl, textClassificationCacheStorageKey) {
-  let entities = [];
+function interactiveInhabitCollectTaxonomy(contextualUrl, textClassificationCacheStorageKey) {
+  let taxonomyRes = [];
   let cacheData = window.localStorage.getItem(textClassificationCacheStorageKey) || '{}';
   let data = JSON.parse(cacheData);
   if (!contextualUrl || !data.val) {
-    return entities;
+    return taxonomyRes;
   }
   for (let provider in data.val) {
-    let allInternalResults = _interactiveInhabit.get(data.val[provider], 'Entities,' + contextualUrl, [], ',');
-    for (let internalEntity of  allInternalResults) {
-      let entity = {
+    let allInternalResults = _interactiveInhabit.get(data.val[provider], 'Taxonomy,' + contextualUrl, [], ',');
+    for (let internalTaxonomy of  allInternalResults) {
+      let taxonomy = {
         providerName: provider,
         results: []
       };
-      for (let property in internalEntity) {
-        entity.results.push(
+      for (let property in internalTaxonomy) {
+        taxonomy.results.push(
           { // equals SemanticEntity class structure
             kind: property,
-            value: JSON.stringify(internalEntity[property])
+            value: JSON.stringify(internalTaxonomy[property])
           });
       }
-      entities.push(entity);
+      taxonomyRes.push(taxonomy);
     }
   }
 
-  return entities;
+  return taxonomyRes;
 }
 function interactiveInhabitCollectEventMessages(messageLogStorageKey) {
   let storageData = window.localStorage.getItem(messageLogStorageKey) || '[]';
@@ -129,6 +129,7 @@ function interactiveInhabitCollectResults(textClassificationCacheStorageKey, mes
   return {
     contUrl: interactiveInhabitContextualUrl,
     entities: interactiveInhabitCollectSemanticEntities(interactiveInhabitContextualUrl, textClassificationCacheStorageKey),
+    taxonomy: interactiveInhabitCollectTaxonomy(interactiveInhabitContextualUrl, textClassificationCacheStorageKey),
     messages: interactiveInhabitCollectEventMessages(messageLogStorageKey),
     presCntCnf: interactiveInhabitGetPresCenterConfig()
   };

@@ -11,8 +11,7 @@ import { SemanticEntity } from '../../data.models/semanticEntitiy.model';
 
 export class WidgetSemanticator {
     @Output() semanticatorEntities: Array<SemanticAnalyzeResult<SemanticEntity>>;
-    @Output() semanticatorKeywords: Array<SemanticAnalyzeResult<string>>;
-    @Output() semanticatorTaxonomy: Array<SemanticAnalyzeResult<string>>;
+    @Output() semanticatorTaxonomy: Array<SemanticAnalyzeResult<SemanticEntity>>;
     @Output() contextUrl: string;
     @Output() contentExists : boolean;
     @Output() contentShown : boolean;
@@ -34,7 +33,6 @@ export class WidgetSemanticator {
         if (msg.startsWith("data.refresh.")){
             this.contentLoading = false;
             this.semanticatorEntities = this.dataCollector.getEnitities();
-            this.semanticatorKeywords = this.dataCollector.getKeywords();
             this.semanticatorTaxonomy = this.dataCollector.getTaxonomy();
             this.contextUrl = this.dataCollector.getContextUrl();
         }
