@@ -8,10 +8,10 @@ import {SemanticEntity} from '../../data.models/semanticEntitiy.model';
   styleUrls: ['./semantic-taxonomy-explanator.component.css']
 })
 export class SemanticTaxonomyExplanatorComponent{
-  @Output() taxonomyData: Array<SemanticAnalyzeResult<SemanticEntity>>;
+  @Output() taxonomyData: SemanticAnalyzeResult<SemanticEntity>;
 
   @Input()
-  set semanticTaxonomyData(data: Array<SemanticAnalyzeResult<SemanticEntity>>) {
+  set semanticTaxonomyData(data: SemanticAnalyzeResult<SemanticEntity>) {
     this.taxonomyData = data;
   }
 }
