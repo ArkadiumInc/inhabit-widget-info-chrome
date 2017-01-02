@@ -25,31 +25,37 @@ export class AppComponent implements AfterViewChecked {
 
 
   public constructor(dataCollSrv: DataCollectionService) {
-
     this.dataCollector = dataCollSrv;
     this.reloadPage(null);
   }
 
+  private reReadData(iterationCount) {
+    let counter = iterationCount;
+    this.dataCollector.refreshData()
+      .then(function() {
+              this.refreshIntervalId = setTimeout(function () {
+              counter += 1;
+              //Going to re-read collected data 20 times.
+              // It is necessary because a Factive module could be rejected by timeout.
+              //TODO: consider using events presenter.content or presenter.module.empty.list (if no appropriate module found)
+              // as signal that re-reading collected data should be stopped but in this case we need to be sure that all
+              // existing on the page factives recieved one of these messages. So for now I'd rather stick with re-reading
+              // collected data %MAX_COUNT% times.
+              if (counter >= 20) {
+                clearInterval(this.refreshIntervalId);
+              } else {
+                this.reReadData(counter);
+              }
+            }.bind(this), 1000);
+          }.bind(this))
+      .catch( function(err) {
+        clearInterval(this.refreshIntervalId);
+      });
+  }
+
   private refreshPage() {
     clearInterval(this.refreshIntervalId);
-    this.notFound = false;
-    this.inhabitFound = false;
-    this.dataCollector.inhabitAttached = false;
-
-    let counter: number = 0;
-    this.refreshIntervalId = setInterval(function () {
-      this.dataCollector.refreshData.bind(this.dataCollector)();
-      this.inhabitFound = this.dataCollector.inhabitAttached;
-      if (this.inhabitFound) {
-        clearInterval(this.refreshIntervalId);
-        return;
-      }
-      counter += 1;
-      if (counter >= 20) {
-        clearInterval(this.refreshIntervalId);
-        this.notFound = true;
-      }
-    }.bind(this), 1000);
+    this.reReadData(0);
   }
 
   public reloadPage(event: any) {
