@@ -155,6 +155,7 @@ export class DataCollectionService {
     let reloadOptions: any = {
       injectedScript: script
     };
+    console.log(chrome.devtools);
     chrome.devtools.inspectedWindow.reload(reloadOptions);
   }
 
