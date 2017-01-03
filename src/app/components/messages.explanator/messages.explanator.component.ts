@@ -19,7 +19,7 @@ export class MessagesExplanator {
         if (msg.modId) {
             expLine.text += " getting module " + msg.modId;
         }
-        if (msg.modIndx) {
+        if (msg.modIndx >= 0) {
             expLine.text += " on place " + (msg.modIndx + 1); //in msg module index is 0 based
         }
         expLine.type = ExplanationLine.TYPE_DEFAULT;
@@ -34,7 +34,7 @@ export class MessagesExplanator {
         if (msg.modId) {
             expLine.text += " for the module " + msg.modId;
         }
-        if (msg.modIndx) {
+        if (msg.modIndx >= 0) {
             expLine.text += " on place " + (msg.modIndx + 1); //in msg module index is 0 based
         }
         expLine.text += " content found.";
@@ -50,7 +50,7 @@ export class MessagesExplanator {
         if (msg.modId) {
             expLine.text += " for the module " + msg.modId;
         }
-        if (msg.modIndx) {
+        if (msg.modIndx >= 0) {
             expLine.text += " on place " + (msg.modIndx + 1); //in msg module index is 0 based
         }
         expLine.text += " no content found.";
@@ -80,7 +80,7 @@ export class MessagesExplanator {
         if (msg.modId) {
             expLine.text += " for the module " + msg.modId;
         }
-        if (msg.modIndx) {
+        if (msg.modIndx >= 0) {
             expLine.text += " on place " + (msg.modIndx + 1); //in msg module index is 0 based
         }
         if (msg.err) {
@@ -99,7 +99,7 @@ export class MessagesExplanator {
         if (msg.modId) {
             expLine.text += " the module " + msg.modId;
         }
-        if (msg.modIndx) {
+        if (msg.modIndx >= 0) {
             expLine.text += " on place " + (msg.modIndx + 1); //in msg module index is 0 based
         }
         if (msg.err) {

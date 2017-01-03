@@ -1,6 +1,6 @@
-<div *ngFor="let message of messages; let idx = index"
+<div *ngFor="let message of messages; let isEven = even; let isOdd = odd;"
      class="message-container"
-     [ngClass]="{'message-odd': idx/2, 'message-even': !(idx/2)}">
+     [ngClass]="{'message-odd': isOdd, 'message-even': isEven}">
   <div *ngFor="let property of getProperties(message)" class="message-item">
     {{property}} : {{message[property]}}
   </div>

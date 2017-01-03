@@ -2,17 +2,18 @@ interface Window {
   __untochedPresCenterConfigVarName__: string;
   __inhabitWidgetInfoMessagesStorageKey: string;
 }
-function inhabitWidgetInfoPushToStorage(storageKey: string, item: any) {
+function inhabitWidgetInfoPushToStorage(storageVariableName: string, item: any) {
   'use strict';
-  let storageData = window.localStorage.getItem(storageKey) || '[]';
-  let data = JSON.parse(storageData);
-  data.push(item);
-  window.localStorage.setItem(storageKey, JSON.stringify(data));
+  let storageData = window[storageVariableName];
+  if (!(storageData instanceof Array)) {
+    storageData = [];
+  }
+  storageData.push(item);
+  window[storageVariableName] = storageData;
 }
 
 function inhabitWidgetInfoAddEventHandlers(emitter: any) {
   'use strict';
-  window.localStorage.setItem(window.__inhabitWidgetInfoMessagesStorageKey, '[]');
   emitter.on('presenter.module.empty.list', function (appId) {
     let data = {
       time: Date.now(),

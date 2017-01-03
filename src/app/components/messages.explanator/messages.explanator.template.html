@@ -1,5 +1,5 @@
-<div *ngFor="let explanationLine of explanationLines; let idx = index" class="message-container"
-     [ngClass]="{'message-odd': idx/2, 'message-even': !(idx/2),
+<div *ngFor="let explanationLine of explanationLines; let isEven = even; let isOdd = odd;" class="message-container"
+     [ngClass]="{'message-odd': isOdd, 'message-even': isEven,
      'message-type-failure':  (explanationLine.type == expLineFailure),
      'message-type-warning' : (explanationLine.type == expLineWarning),
      'message-type-success' : (explanationLine.type == expLineSuccess)}">

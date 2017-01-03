@@ -120,8 +120,8 @@ function interactiveInhabitCollectTaxonomy(contextualUrl, textClassificationCach
   return taxonomyRes;
 }
 function interactiveInhabitCollectEventMessages(messageLogStorageKey) {
-  let storageData = window.localStorage.getItem(messageLogStorageKey) || '[]';
-  return JSON.parse(storageData);
+  let storageData = window[messageLogStorageKey] || [];
+  return storageData;
 }
 
 function interactiveInhabitCollectResults(textClassificationCacheStorageKey, messageLogStorageKey) {

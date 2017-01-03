@@ -5,7 +5,10 @@
   "angular-cli": {},
   "scripts": {
     "start": "ng serve",
-    "build": "ng build -p",
+    "buildDevtools" : "tsc src\\page_scripts\\devtools\\devtools.ts --outFile src\\page_scripts\\devtools\\devtools.js",
+    "buildEventHandlers" : "tsc src\\page_scripts\\page_injectables\\pageEventHandlers.ts --outFile src\\page_scripts\\page_injectables\\pageEventHandlers.js",
+    "buildResultsRetriever" : "tsc src\\page_scripts\\page_injectables\\pageResultsRetriever.ts --outFile src\\page_scripts\\page_injectables\\pageResultsRetriever.js",
+    "build": "npm run buildDevtools && npm run buildEventHandlers && npm run buildResultsRetriever && ng build -p",
     "dev": "ng build",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
