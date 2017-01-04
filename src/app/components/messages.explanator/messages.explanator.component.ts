@@ -165,16 +165,16 @@ export class MessagesExplanator {
                     newExpLine = this.presenterNoContentExpl(msg);
                 break;
                 case ('presenter.error') :
-                    //newExpLine = this.presenterErrorExpl(msg);
+                    newExpLine = this.presenterErrorExpl(msg);
                 break;
                 case ('presenter.module.getcontent.error') :
-                    //newExpLine = this.presenterModuleGetcontentErrorExpl(msg);
+                    newExpLine = this.presenterModuleGetcontentErrorExpl(msg);
                 break;
                 case ('presenter.module.demand.error') :
                     newExpLine = this.presenterModuleDemandErrorExpl(msg);
                 break;
                 case ('presenter.module.empty.list') :
-                  //newExpLine = this.presenterModuleEmptyListExpl(msg);
+                    newExpLine = this.presenterModuleEmptyListExpl(msg);
                 break;
                 case ('app.config.fetch.failure') :
                   newExpLine = this.appConfigFetchFailureExpl(msg);
